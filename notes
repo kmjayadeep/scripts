@@ -1,0 +1,129 @@
+#!/bin/bash
+
+usage() {
+  echo "notes : Take notes in markdown
+    
+  notes edit k8s/test     # Add/Edit a note 'test.md' under 'k8s'
+  notes edit k8s/test -p  # Add/Edit a note k8s/test and open live preview
+  notes show k8s/test     # Open preview of the note k8s/test.md
+  notes delete k8s/test   # Delete this note "
+}
+
+edit() {
+  file=$1
+
+  if [[ -z $file ]]
+  then
+    echo "No file specified"
+  fi
+
+  if [ ! ${file: -3} == ".md" ]; then
+    file=$file.md
+  fi
+
+  filePath=~/workspace/notes/$file
+  dir=${filePath%/*}
+
+  mkdir -p $dir
+  existing=true
+
+  if [ ! -f $filePath ]; then
+    existing=false
+  fi
+
+  if [[ $2 = '-p' ]]
+  then
+    echo "previewing"
+    firefox --new-window $filePath
+  fi
+
+  if $existing
+  then
+    nvim $filePath
+  else
+    # Open file and add filename as the title in first line, but dont save it
+    title=$(basename $file)
+    nvim \
+      -c "norm Gi# $title" \
+      -c "norm G2o" \
+      -c "startinsert" $filePath
+  fi
+
+}
+
+show() {
+  file=$1
+
+  if [[ -z $file ]]
+  then
+    echo "No file specified"
+  fi
+
+  if [ ! ${file: -3} == ".md" ]; then
+    file=$file.md
+  fi
+
+
+  filePath=~/workspace/notes/$file
+
+  if [ ! -f $filePath ]; then
+    echo "Note doesn't exist"
+    exit 1
+  fi
+
+  firefox $filePath
+}
+
+delete() {
+  file=$1
+
+  if [[ -z $file ]]
+  then
+    echo "No file specified"
+  fi
+
+  if [ ! ${file: -3} == ".md" ]; then
+    file=$file.md
+  fi
+
+  filePath=~/workspace/notes/$file
+
+  if [ ! -f $filePath ]; then
+    echo "Note doesn't exist"
+    exit 1
+  fi
+
+  read -p "Are you sure? [y/N] " -n 1 REPLY
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+    rm $filePath
+  fi
+
+}
+
+
+
+if [ "$#" == "0" ]; then
+  usage
+	exit 1
+fi
+
+cmd=$1
+shift
+
+case $cmd in 
+   edit)
+     edit $@
+;;
+   show)
+     show $1
+;;
+   delete)
+     delete $1
+;;
+   *)
+     usage
+     exit 1
+;;
+esac

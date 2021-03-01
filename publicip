@@ -1,0 +1,21 @@
+#!/bin/sh
+
+connection=$(pgrep -a openvpn$ | head -n 1 | awk '{print $NF }' | cut -d '.' -f 1)
+ip="$(curl -4 -sf ifconfig.co)"
+
+if [ -n "$connection" ]; then
+    case $ip in
+      "103.151.189.129")
+        type="vpn(avesha)"
+        ;;
+
+      "134.209.35.138")
+        type="vpn(personal)"
+        ;;
+    esac
+else 
+    type="public"
+fi
+
+echo " $type: $ip"
+

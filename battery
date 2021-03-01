@@ -1,0 +1,13 @@
+#/bin/sh
+acpi -b | grep "rate information unavailable" -v \
+  | awk -F'[,:%]' '{print $3}' \
+  | ( while  read -r capacity; do
+
+    total=$((total+capacity))
+    count=$((count+1))
+
+  done
+  perc=$(expr $total / $count)
+  echo $perc
+
+)
