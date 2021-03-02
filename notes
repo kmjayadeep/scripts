@@ -2,19 +2,51 @@
 
 usage() {
   echo "notes : Take notes in markdown
-    
-  notes edit k8s/test     # Add/Edit a note 'test.md' under 'k8s'
-  notes edit k8s/test -p  # Add/Edit a note k8s/test and open live preview
-  notes show k8s/test     # Open preview of the note k8s/test.md
-  notes delete k8s/test   # Delete this note "
+
+  notes                   # Fuzzy finder to select a note and open in firefox
+  notes edit              # Fuzzy finder to select a note and edit it in nvim
+  notes list              # List notes as a tree
+  notes add k8s/test      # Add a new note k8s/test.md
+  notes delete k8s/test   # Delete this note"
+}
+
+getFile() {
+  file=$(find ~/workspace/notes -type f -name "*.md" -not -path '*/.git/*' | cut -sd / -f 6- | fzf)
+  echo $file
+}
+
+view() {
+  file=$(getFile)
+  if [[ -z $file ]]
+  then
+    echo "No file specified"
+    exit 1
+  fi
+  firefox "~/workspace/notes/$file"
+}
+
+list() {
+  tree ~/workspace/notes
 }
 
 edit() {
+  file=$(getFile)
+  if [[ -z $file ]]
+  then
+    echo "No file specified"
+    exit 1
+  fi
+
+  cd ~/workspace/notes; nvim $file
+}
+
+add() {
   file=$1
 
   if [[ -z $file ]]
   then
     echo "No file specified"
+    exit 1
   fi
 
   if [ ! ${file: -3} == ".md" ]; then
@@ -27,51 +59,18 @@ edit() {
   mkdir -p $dir
   existing=true
 
-  if [ ! -f $filePath ]; then
-    existing=false
-  fi
-
-  if [[ $2 = '-p' ]]
-  then
-    echo "previewing"
-    firefox --new-window $filePath
-  fi
-
-  if $existing
-  then
-    nvim $filePath
-  else
-    # Open file and add filename as the title in first line, but dont save it
-    title=$(basename $file)
-    nvim \
-      -c "norm Gi# $title" \
-      -c "norm G2o" \
-      -c "startinsert" $filePath
-  fi
-
-}
-
-show() {
-  file=$1
-
-  if [[ -z $file ]]
-  then
-    echo "No file specified"
-  fi
-
-  if [ ! ${file: -3} == ".md" ]; then
-    file=$file.md
-  fi
-
-
-  filePath=~/workspace/notes/$file
-
-  if [ ! -f $filePath ]; then
-    echo "Note doesn't exist"
+  if [ -f $filePath ]; then
+    echo "Note already exists"
     exit 1
   fi
 
-  firefox $filePath
+  title=$(basename $file)
+  cd ~/workspace/notes
+  nvim \
+    -c "norm Gi# $title" \
+    -c "norm G2o" \
+    -c "startinsert" $filePath
+
 }
 
 delete() {
@@ -80,6 +79,7 @@ delete() {
   if [[ -z $file ]]
   then
     echo "No file specified"
+    exit 1
   fi
 
   if [ ! ${file: -3} == ".md" ]; then
@@ -103,9 +103,8 @@ delete() {
 }
 
 
-
 if [ "$#" == "0" ]; then
-  usage
+  view
 	exit 1
 fi
 
@@ -113,11 +112,17 @@ cmd=$1
 shift
 
 case $cmd in 
-   edit)
-     edit $@
+   add)
+     add $1
 ;;
-   show)
-     show $1
+   edit)
+     edit
+;;
+   list)
+     list
+;;
+   view)
+     view
 ;;
    delete)
      delete $1
