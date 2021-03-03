@@ -3,8 +3,8 @@
 usage() {
   echo "notes : Take notes in markdown
 
-  notes                   # Fuzzy finder to select a note and open in firefox
-  notes edit              # Fuzzy finder to select a note and edit it in nvim
+  notes                   # Fuzzy finder to select a note and edit it in nvim
+  notes open              # Fuzzy finder to select a note and open in firefox
   notes list              # List notes as a tree
   notes add k8s/test      # Add a new note k8s/test.md
   notes delete k8s/test   # Delete this note"
@@ -15,7 +15,7 @@ getFile() {
   echo $file
 }
 
-view() {
+open() {
   file=$(getFile)
   if [[ -z $file ]]
   then
@@ -104,7 +104,7 @@ delete() {
 
 
 if [ "$#" == "0" ]; then
-  view
+  edit
 	exit 1
 fi
 
@@ -121,8 +121,8 @@ case $cmd in
    list)
      list
 ;;
-   view)
-     view
+   open)
+     open
 ;;
    delete)
      delete $1
