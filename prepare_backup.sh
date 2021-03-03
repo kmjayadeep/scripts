@@ -14,6 +14,9 @@ cp ~/.config/polybar/ ~/workspace/dotfiles/polybar -r
 echo "copying zsh history"
 cp ~/.zsh_history ~/workspace/backups/zsh/zsh_history
 
+echo "copying private stuff"
+cp ~/.bash_aliases_private ~/workspace/backups/zsh/bash_aliases_private
+
 echo "copying ssh"
 cp ~/.ssh/config ~/workspace/backups/ssh/
 cp ~/.ssh/authorized_keys ~/workspace/backups/ssh/
