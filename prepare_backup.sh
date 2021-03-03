@@ -2,6 +2,7 @@
 echo "Preparing backup"
 echo "copying dotfiles"
 cp ~/.zshrc ~/workspace/dotfiles/zsh/zshrc
+cp ~/.taskrc ~/workspace/dotfiles/taskwarrior/taskrc
 cp ~/.bash_aliases ~/workspace/dotfiles/zsh/bash_aliases
 cp ~/.Xresources ~/workspace/dotfiles/Xresources/Xresources
 cp ~/.vimrc ~/workspace/dotfiles/vim/vimrc
