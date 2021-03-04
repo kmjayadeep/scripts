@@ -67,7 +67,7 @@ add() {
   title=$(basename $file)
   cd ~/workspace/notes
   nvim \
-    -c "norm Gi# $title" \
+    -c "norm Gi# $1" \
     -c "norm G2o" \
     -c "startinsert" $filePath
 
