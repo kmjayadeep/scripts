@@ -7,12 +7,22 @@ usage() {
   notes open              # Fuzzy finder to select a note and open in firefox
   notes list              # List notes as a tree
   notes add k8s/test      # Add a new note k8s/test.md
-  notes delete k8s/test   # Delete this note"
+  notes delete k8s/test   # Delete this note
+  notes commit mycommit   # Commit notes to git with message mycommit"
 }
 
 getFile() {
   file=$(find ~/workspace/notes -type f -name "*.md" -not -path '*/.git/*' | cut -sd / -f 6- | fzf)
   echo $file
+}
+
+commit() {
+  msg=$1
+  if [[ -z $msg ]]
+  then
+    msg="Notes saved on : $(date)"
+  fi
+  cd ~/workspace/notes ;git status; git add .; git commit -m "$msg";
 }
 
 open() {
@@ -126,6 +136,9 @@ case $cmd in
 ;;
    delete)
      delete $1
+;;
+   commit)
+     commit $1
 ;;
    *)
      usage
