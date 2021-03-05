@@ -12,7 +12,7 @@ usage() {
 }
 
 getFile() {
-  file=$(find ~/workspace/notes -type f -name "*.md" -not -path '*/.git/*' | cut -sd / -f 6- | fzf)
+  file=$(find ~/workspace/notes -type f -name "*.md" -not -path '*/.git/*' | cut -sd / -f 6- | fzf --preview 'bat --style numbers,changes --color always ~/workspace/notes/{}')
   echo $file
 }
 
@@ -22,7 +22,7 @@ commit() {
   then
     msg="Notes saved on : $(date)"
   fi
-  cd ~/workspace/notes ;git status; git add .; git commit -m "$msg";
+  cd ~/workspace/notes ; git add .; git commit -m "$msg";
 }
 
 open() {
@@ -33,6 +33,16 @@ open() {
     exit 1
   fi
   firefox "~/workspace/notes/$file"
+}
+
+preview() {
+  file=$(getFile)
+  if [[ -z $file ]]
+  then
+    echo "No file specified"
+    exit 1
+  fi
+  bat -p ~/workspace/notes/$file
 }
 
 list() {
@@ -133,6 +143,9 @@ case $cmd in
 ;;
    open)
      open
+;;
+   preview)
+     preview
 ;;
    delete)
      delete $1
