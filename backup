@@ -1,4 +1,5 @@
 #!/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:~/workspace/scripts
 prepare_backup.sh
 backup_workspace_home.sh
 date -u +"%Y-%m-%d %H:%M:%S" > ~/workspace/backups/last_backup_date
