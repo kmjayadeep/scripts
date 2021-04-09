@@ -15,8 +15,8 @@ echo "copying zsh history"
 cp ~/.zsh_history ~/workspace/backups/zsh/zsh_history
 
 echo "private stuff"
-echo "copying private bash_aliases"
-cp ~/.bash_aliases_private ~/workspace/backups/zsh/bash_aliases_private
+echo "copying private zshrc"
+cp ~/.zshrc_private ~/workspace/backups/zsh/zshrc_private
 echo "commiting notes to git"
 notes commit
 echo "Copying taskwarrior tasks and keys"
