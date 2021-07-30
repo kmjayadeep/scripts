@@ -1,0 +1,17 @@
+#! /bin/sh
+
+# Command to quickly create/edit scripts in ~/workspace/scripts directory
+
+FILE=~/workspace/scripts/$1
+
+if [ ! -f "$FILE" ]; then
+  read -p "File doesn't exist. Create? y/N : " c
+  if [ "$c" = "y" ]; then
+    echo "#!/bin/bash" > $FILE
+    echo "" >> $FILE
+    echo "# $1:" >> $FILE
+    chmod +x $FILE
+  fi
+fi
+
+$EDITOR $FILE
