@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# commit: git add and commit a single file/dir
+
+git add $1
+git commit
