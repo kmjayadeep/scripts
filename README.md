@@ -9,5 +9,3 @@ Collection of scripts I use for
 * publicip- show public ip on the network. Useful to print on polybar/i3bar etc
 * push - git push -u origin head
 * vic - create/edit a script in this folder
-
-### TODO Add more details
