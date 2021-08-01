@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# map: A tool to manage notes in my mind map repo (private)
+
+FOLDER=~/workspace/mindmap
+
+usage() {
+  echo "map: Manage mind map repo
+
+  map                     # Create a new node and open it in editor
+  map commit mycommit     # Commit to git with message mycommit"
+}
+
+x_isosec() { date -u "+%Y%b/%d%a-%H%M%S"; }
+
+add() {
+  d="$(x_isosec)"
+  dir=$FOLDER/dump/$d
+  mkdir -p $dir
+  cd $dir
+  file=$dir/README.md
+  echo "# " >  $file
+  echo "## $(date)" >>  $file
+  $EDITOR $file
+  title="$(head -n 1 $file | cut -d# -f2 | xargs)"
+  title="${title//\ /-}"
+  if [ -n "$title" ];then
+    mv $dir "$dir-$title"
+  else
+    echo "Empty title, deleting node"
+    rm -rf $dir
+  fi
+}
+
+push() {
+  msg=$1
+  if [[ -z $msg ]]
+  then
+    msg="mind map saved on : $(date)"
+  fi
+  cd $FOLDER ; git add .; git commit -m "$msg"; git push origin main;
+}
+
+cmd=$1
+shift
+
+case $cmd in 
+   "")
+     add
+;;
+   help)
+     usage
+;;
+   push)
+     push $1
+;;
+   *)
+     usage
+;;
+esac
