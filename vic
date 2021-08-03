@@ -2,6 +2,11 @@
 
 # Command to quickly create/edit scripts in ~/workspace/scripts directory
 
+if [ -z $1 ]; then
+  echo "Enter a file name as \`vic [NAME]\`"
+  exit 1
+fi
+
 FILE=~/workspace/scripts/$1
 
 if [ ! -f "$FILE" ]; then
@@ -11,6 +16,8 @@ if [ ! -f "$FILE" ]; then
     echo "" >> $FILE
     echo "# $1:" >> $FILE
     chmod +x $FILE
+  else
+    exit 0
   fi
 fi
 
