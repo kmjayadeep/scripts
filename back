@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# back: Show a large text on the terminal which says, back in % mins
+
+min=$1*60
+countdown(){
+    date1=$((`date +%s` + $min));
+    while [ "$date1" -ge `date +%s` ]; do 
+    ## Is this more than 24h away?
+    left="$(date -u --date @$(($date1 - `date +%s`)) +%M:%S)"
+    clear
+    figlet "Back  in  $left"
+    sleep 0.1
+    done
+}
+
+countdown $1
