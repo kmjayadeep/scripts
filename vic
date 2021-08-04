@@ -10,7 +10,7 @@ fi
 FILE=~/workspace/scripts/$1
 
 if [ ! -f "$FILE" ]; then
-  read -p "File doesn't exist. Create? y/N : " c
+  read -p "The script $1 doesn't exist. Create? y/N : " c
   if [ "$c" = "y" ]; then
     echo "#!/bin/bash" > $FILE
     echo "" >> $FILE

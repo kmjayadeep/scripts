@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# pull: pull from origin current branch
+
+git pull origin HEAD
+
