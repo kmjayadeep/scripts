@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# twitchtitle: Update twitch stream title
+
+# Generate token with the command `twitch token -s "channel:manage:broadcast"`
+
+x_get() {
+  curl -X GET 'https://api.twitch.tv/helix/channels?broadcaster_id=422848170' \
+    -H "Authorization: Bearer $TWITCH_TOKEN" \
+    -H "Client-Id: $TWITCH_CLIENT_ID" 2>/dev/null
+}
+
+x_get_title() {
+  x_get | jq -r ".data[0].title"
+}
+
+x_title() {
+  curl -X PATCH 'https://api.twitch.tv/helix/channels?broadcaster_id=422848170' \
+    -H "Authorization: Bearer $TWITCH_TOKEN" \
+    -H "Client-Id: $TWITCH_CLIENT_ID" \
+    -H 'Content-Type: application/json' \
+    --data-raw '{"title":"Gaming: Tomb Raider"}'
+}
+
+if [ -z $1 ];then
+  x_get_title
+else
+  x_title $1
+fi
+
