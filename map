@@ -8,7 +8,7 @@ usage() {
   echo "map: Manage mind map repo
 
   map                     # Create a new node and open it in editor
-  map commit mycommit     # Commit to git with message mycommit"
+  map push                # Commit and push to git"
 }
 
 x_isosec() { date -u "+%Y%b/%d%a-%H%M%S"; }
