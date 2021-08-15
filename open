@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# open: A wrapper for `xdg-open` with some additional features
+
+DEFAULT_BROWSER=google-chrome-stable
+
+if [ -z $1 ]; then
+  # Opening a directory
+  remotes=$(git remote -v 2>/dev/null)
+  if [ $? -ne 0 ]; then
+    # Replaces current process. no need of return afterwards
+    exec xdg-open .
+  fi
+
+  case $remotes in
+    *github*)
+      remote=${remotes##*:}
+      remote=${remote%%\.*}
+      exec $DEFAULT_BROWSER github.com/$remote
+    ;;
+    *bitbucket*)
+      remote=${remotes##*:}
+      remote=${remote%%\.*}
+      exec $DEFAULT_BROWSER bitbucket.com/$remote
+    ;;
+    *)
+      echo "some other git"
+      exit 1
+    ;;
+  esac
+
+fi
+
+xdg-open $1
