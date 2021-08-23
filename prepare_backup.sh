@@ -37,6 +37,6 @@ cp ~/.kube/kubens ~/workspace/backups/kube/kubens -r
 # task sync
 
 echo "copying notes to encrypted folder for dropbox backup"
-rsync -av --progress ~/workspace/notes ~/Private --exclude .git
+rsync -av --progress ~/workspace/notes ~/Private --delete --exclude .git
 
 echo "Backup Preparation successful!"
