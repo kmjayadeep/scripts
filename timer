@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# timer: wait a few seconds and send a notification when done
+
+sleep $1 && notify-send "Time up!"
