@@ -32,7 +32,7 @@ open() {
     echo "No file specified"
     exit 1
   fi
-  firefox "~/workspace/notes/$file"
+  google-chrome-stable "~/workspace/notes/$file"
 }
 
 preview() {

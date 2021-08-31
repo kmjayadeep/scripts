@@ -8,6 +8,8 @@ usage() {
   echo "map: Manage mind map repo
 
   map                     # Create a new node and open it in editor
+  map list                # List existing notes
+  map open                # open an entry in chrome
   map push                # Commit and push to git"
 }
 
@@ -33,7 +35,22 @@ add() {
 }
 
 list() {
-  find /home/jayadeep/workspace/mindmap/dump -type d| fzf
+  find /home/jayadeep/workspace/mindmap/dump -type f| fzf
+}
+
+getFile() {
+  file=$(find ~/workspace/mindmap/dump -type f -name "*.md" -not -path '*/.git/*' | cut -sd / -f 7- | fzf --preview 'bat --style numbers,changes --color always ~/workspace/mindmap/dump/{}')
+  echo $file
+}
+
+open() {
+  file=$(getFile)
+  if [[ -z $file ]]
+  then
+    echo "No file specified"
+    exit 1
+  fi
+  google-chrome-stable "~/workspace/mindmap/dump/$file"
 }
 
 push() {
@@ -57,6 +74,9 @@ case $cmd in
 ;;
    list)
      list
+;;
+   open)
+     open
 ;;
    push)
      push $1
