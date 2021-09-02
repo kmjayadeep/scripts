@@ -14,8 +14,6 @@ echo $mount
 
 echo "---------------backing up to ssd-----------------"
 
-sleep 1
-
 rsync -av --progress ~/workspace $mount/backup --delete
 
 echo "---------------backed up to ssd-----------------"
