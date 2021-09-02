@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# backup_ssd: Backup workspace to local ssd
+
+DISK_NAME=5c7ea4d2
+# First find where the SSD is mounted
+
+mount=$(lsblk | grep $DISK_NAME | awk '{print $7}')
+[ -z $mount ] && echo "Disk not found" && exit 1
+echo $mount
+
+~/workspace/scripts/prepare_backup.sh
+
+
+echo "---------------backing up to ssd-----------------"
+
+sleep 1
+
+rsync -av --progress ~/workspace $mount/backup --delete
+
+echo "---------------backed up to ssd-----------------"
