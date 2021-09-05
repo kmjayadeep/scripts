@@ -2,7 +2,7 @@
 
 # backup_ssd: Backup workspace to local ssd
 
-DISK_NAME=5c7ea4d2
+DISK_NAME=backup
 # First find where the SSD is mounted
 
 mount=$(lsblk | grep $DISK_NAME | awk '{print $7}')
@@ -14,7 +14,7 @@ echo $mount
 
 echo "---------------backing up to ssd-----------------"
 
-# rsync -av --progress ~/workspace $mount/backup --delete
-rclone sync ~/workspace $mount/backup/workspace -P -v --copy-links
+rsync -avhP ~/workspace $mount/backup --delete
+# rclone sync ~/workspace $mount/backup/workspace -P -v --copy-links
 
 echo "---------------backed up to ssd-----------------"
