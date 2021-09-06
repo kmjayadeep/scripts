@@ -9,7 +9,7 @@ mount=$(lsblk | grep $DISK_NAME | awk '{print $7}')
 [ -z $mount ] && echo "Disk not found" && exit 1
 echo $mount
 
-~/workspace/scripts/prepare_backup.sh
+# ~/workspace/scripts/prepare_backup.sh
 
 
 echo "---------------backing up to ssd-----------------"
