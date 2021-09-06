@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# restore: Restore workspace from local ssd
+
+DISK_NAME=backup
+# First find where the SSD is mounted
+
+mount=$(lsblk | grep $DISK_NAME | awk '{print $7}')
+[ -z $mount ] && echo "Disk not found" && exit 1
+echo $mount
+
+
+echo "---------------restoring from ssd-----------------"
+
+rsync -avhP $mount/backup/workspace/ ~/workspace/ --delete
+
+echo "---------------restored from ssd-----------------"
