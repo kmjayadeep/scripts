@@ -8,7 +8,7 @@ usage() {
   echo "map: Manage mind map repo
 
   map                     # Fuzzy finder to select an entry and edit in nvim
-  map add                 # Create a new entry and open it in editor
+  map add <title>         # Create a new entry and open it in editor
   map list                # List existing entries using fzf
   map open                # open an entry in chrome
   map push                # Commit and push to git"
@@ -18,21 +18,15 @@ x_isosec() { date -u "+%Y%b/%d%a-%H%M%S"; }
 
 add() {
   d="$(x_isosec)"
-  dir=$FOLDER/dump/$d
+  title="$@"
+  title_stripped="${title//\ /-}"
+  dir=$FOLDER/dump/$d-$title_stripped
   mkdir -p $dir
-  cd $dir
+  cd ~/workspace/mindmap/dump
   file=$dir/README.md
-  echo "# " >  $file
+  echo "# $title" >  $file
   echo "## $(date)" >>  $file
   $EDITOR $file
-  title="$(head -n 1 $file | cut -d# -f2 | xargs)"
-  title="${title//\ /-}"
-  if [ -n "$title" ];then
-    mv $dir "$dir-$title"
-  else
-    echo "Empty title, deleting node"
-    rm -rf $dir
-  fi
 }
 
 list() {
@@ -72,6 +66,15 @@ edit() {
   fi
 
   cd ~/workspace/mindmap/dump/; nvim $file
+  echo $file > /tmp/last_map
+}
+
+last() {
+  if [ ! -f /tmp/last_map ]; then
+    echo "last edited file not found"
+    exit 1
+  fi
+  cd ~/workspace/mindmap/dump/; nvim `cat /tmp/last_map`
 }
 
 
@@ -82,8 +85,11 @@ case $cmd in
    "")
      edit
 ;;
+   last)
+     last
+;;
    add)
-     add
+     add $@
 ;;
    list)
      list
