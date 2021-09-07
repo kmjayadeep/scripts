@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# mdtopdf: Convert markdown to pdf
+# Usage : mdtopdf <file.md> <file.pdf>
+
+pandoc -s -V geometry:margin=1in -f markdown -o $2 $1

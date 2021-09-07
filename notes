@@ -4,10 +4,9 @@ usage() {
   echo "notes : Take notes in markdown
 
   notes                   # Fuzzy finder to select a note and edit it in nvim
-  notes open              # Fuzzy finder to select a note and open in firefox
+  notes open              # Fuzzy finder to select a note and open in browser
   notes list              # List notes as a tree
-  notes add k8s/test      # Add a new note k8s/test.md
-  notes delete k8s/test   # Delete this note
+  notes preview           # Preview note in bat
   notes commit mycommit   # Commit notes to git with message mycommit"
 }
 
@@ -42,7 +41,12 @@ preview() {
     echo "No file specified"
     exit 1
   fi
-  bat -p ~/workspace/notes/$file
+  which bat &> /dev/null
+  if [ $? == 0 ];then
+    bat -p ~/workspace/notes/$file
+  else
+    cat p ~/workspace/notes/$file
+  fi
 }
 
 list() {
@@ -60,69 +64,6 @@ edit() {
   cd ~/workspace/notes; nvim $file
 }
 
-add() {
-  file=$1
-
-  if [[ -z $file ]]
-  then
-    echo "No file specified"
-    exit 1
-  fi
-
-  if [ ! ${file: -3} == ".md" ]; then
-    file=$file.md
-  fi
-
-  filePath=~/workspace/notes/$file
-  dir=${filePath%/*}
-
-  mkdir -p $dir
-  existing=true
-
-  if [ -f $filePath ]; then
-    echo "Note already exists"
-    exit 1
-  fi
-
-  title=$(basename $file)
-  cd ~/workspace/notes
-  nvim \
-    -c "norm Gi# $1" \
-    -c "norm G2o" \
-    -c "startinsert" $filePath
-
-}
-
-delete() {
-  file=$1
-
-  if [[ -z $file ]]
-  then
-    echo "No file specified"
-    exit 1
-  fi
-
-  if [ ! ${file: -3} == ".md" ]; then
-    file=$file.md
-  fi
-
-  filePath=~/workspace/notes/$file
-
-  if [ ! -f $filePath ]; then
-    echo "Note doesn't exist"
-    exit 1
-  fi
-
-  read -p "Are you sure? [y/N] " -n 1 REPLY
-  echo
-  if [[ $REPLY =~ ^[Yy]$ ]]
-  then
-    rm $filePath
-  fi
-
-}
-
-
 if [ "$#" == "0" ]; then
   edit
 	exit 1
@@ -132,9 +73,6 @@ cmd=$1
 shift
 
 case $cmd in 
-   add)
-     add $1
-;;
    edit)
      edit
 ;;
@@ -146,9 +84,6 @@ case $cmd in
 ;;
    preview)
      preview
-;;
-   delete)
-     delete $1
 ;;
    commit)
      commit $1
