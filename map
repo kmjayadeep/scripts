@@ -7,8 +7,9 @@ FOLDER=~/workspace/mindmap
 usage() {
   echo "map: Manage mind map repo
 
-  map                     # Create a new node and open it in editor
-  map list                # List existing notes
+  map                     # Fuzzy finder to select an entry and edit in nvim
+  map add                 # Create a new entry and open it in editor
+  map list                # List existing entries using fzf
   map open                # open an entry in chrome
   map push                # Commit and push to git"
 }
@@ -62,15 +63,27 @@ push() {
   cd $FOLDER ; git add .; git commit -m "$msg"; git push origin main;
 }
 
+edit() {
+  file=$(getFile)
+  if [[ -z $file ]]
+  then
+    echo "No file specified"
+    exit 1
+  fi
+
+  cd ~/workspace/mindmap/dump/; nvim $file
+}
+
+
 cmd=$1
 shift
 
 case $cmd in 
    "")
-     add
+     edit
 ;;
-   help)
-     usage
+   add)
+     add
 ;;
    list)
      list
@@ -80,6 +93,9 @@ case $cmd in
 ;;
    push)
      push $1
+;;
+   help)
+     usage
 ;;
    *)
      usage
