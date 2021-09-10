@@ -2,7 +2,17 @@
 
 # backup_ssd: Backup workspace to local ssd
 
+
 DISK_NAME=backup
+
+read -n 1 -p "This will copy files from local workspace into SSD disk named $DISK_NAME, are you sure you want to continue? (y/N) : " p
+echo
+
+if [ "$p" != "y" ];then
+  exit 1
+fi
+
+
 # First find where the SSD is mounted
 
 mount=$(lsblk | grep $DISK_NAME | awk '{print $7}')
