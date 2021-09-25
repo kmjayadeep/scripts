@@ -1,5 +1,5 @@
 #!/bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:~/workspace/scripts
 prepare_backup.sh
-backup_workspace_home.sh
+backup_workspace_wasabi
 TZ='Asia/Kolkata' date +"%Y-%m-%d %H:%M:%S %Z" > ~/workspace/backups/last_backup_date

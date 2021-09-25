@@ -9,7 +9,7 @@ cp -r ~/.config/nvim/ ~/workspace/dotfiles/
 cp ~/.config/i3/* ~/workspace/dotfiles/i3/ -r
 cp ~/.config/picom/picom.conf ~/workspace/dotfiles/picom/picom.conf
 cp ~/.config/kitty/kitty.conf ~/workspace/dotfiles/kitty/kitty.conf
-cp ~/.config/polybar/ ~/workspace/dotfiles/polybar -r
+cp ~/.config/polybar/* ~/workspace/dotfiles/polybar -r
 
 echo "copying zsh history"
 cp ~/.zsh_history ~/workspace/backups/zsh/zsh_history

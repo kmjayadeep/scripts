@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# backup_notes: Backup notes to wasabi (encrypted)
+
+notes commit
+rclone sync /home/jayadeep/workspace/notes secret:notes -P -v
