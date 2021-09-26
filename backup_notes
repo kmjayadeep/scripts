@@ -1,6 +1,8 @@
 #!/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:~/workspace/scripts
 
 # backup_notes: Backup notes to wasabi (encrypted)
 
 notes commit
+map push
 rclone sync /home/jayadeep/workspace/notes secret:notes -P -v
