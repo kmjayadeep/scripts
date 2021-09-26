@@ -5,4 +5,5 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin:~/workspace/scripts
 
 notes commit
 map push
+xt push
 rclone sync /home/jayadeep/workspace/notes secret:notes -P -v

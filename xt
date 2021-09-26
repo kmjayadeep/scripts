@@ -40,7 +40,12 @@ show() {
     exit 1
   fi
 
-  cat $file
+  which bat &> /dev/null
+  if [ $? == 0 ];then
+    bat $file
+  else
+    cat $file
+  fi
 }
 
 edit() {

@@ -19,9 +19,12 @@ echo "copying private zshrc"
 cp ~/.zshrc_private ~/workspace/backups/zsh/zshrc_private
 echo "commiting notes to git"
 notes commit
-echo "Copying taskwarrior tasks and keys"
-cp -r ~/.task/* ~/workspace/backups/taskwarrior/task/
-cp  ~/.taskrc ~/workspace/backups/taskwarrior/taskrc
+
+echo "pushing mindmap to git"
+map push
+
+echo "pushing tasks to git"
+xt push
 
 echo "copying ssh"
 cp ~/.ssh/config ~/workspace/backups/ssh/
