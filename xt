@@ -1,0 +1,83 @@
+#!/bin/bash
+
+# xt: Manage todo lists
+
+FOLDER=~/workspace/todos
+
+usage() {
+  echo "xt: Manage todos
+
+  xt                     # List todos in current month
+  xt edit                # Edit todos for current month
+  xt push                # Commit and push to git"
+}
+
+getDate() {
+  date -u "+%Y%b"
+}
+
+getTitle() {
+  d=$(date -u "+%Y %B")
+  echo "# Todos for $d"
+}
+
+getCurrentDay() {
+  d=$(date -u "+%b %d - %A")
+  echo $d
+}
+
+getFile() {
+  d=$(getDate)
+  mkdir -p $FOLDER/data/$d
+  f=$FOLDER/data/$d/README.md
+  echo $f
+}
+
+show() {
+  file=$(getFile)
+  if [ ! -f $file ]; then
+    echo "no entries this month"
+    exit 1
+  fi
+
+  cat $file
+}
+
+edit() {
+  file=$(getFile)
+  if [ ! -f $file ]; then
+    echo "$(getTitle)" >  $file
+    echo >> $file
+    echo "## $(getCurrentDay)" >> $file
+    echo "- [ ] do" >> $file
+  fi
+
+  cd $FOLDER; nvim $file
+}
+
+push() {
+  msg="todo saved on : $(date)"
+  cd $FOLDER ; git add .; git commit -m "$msg"; git push origin master;
+}
+
+cmd=$1
+shift
+
+
+case $cmd in 
+   "")
+     show
+;;
+   edit)
+     edit
+;;
+   help|-h)
+     usage
+;;
+   push)
+     push
+;;
+   *)
+     usage
+;;
+esac
