@@ -73,7 +73,7 @@ case $cmd in
    "")
      show
 ;;
-   edit)
+   edit|e)
      edit
 ;;
    help|-h)
