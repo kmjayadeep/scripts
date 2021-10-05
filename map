@@ -14,13 +14,19 @@ usage() {
   map push                # Commit and push to git"
 }
 
-x_isosec() { date -u "+%Y%b/%d%a-%H%M%S"; }
+x_isosec() { date -u "+%Y%m%b/%d%a-%H%M%S"; }
 
 add() {
   d="$(x_isosec)"
   title="$@"
   title_stripped="${title//\ /-}"
+
   dir=$FOLDER/dump/$d-$title_stripped
+  
+  if [ -z $title_stripped ];then
+    dir=$FOLDER/dump/$d
+  fi
+
   mkdir -p $dir
   cd ~/workspace/mindmap/dump
   file=$dir/README.md
