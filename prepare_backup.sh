@@ -35,11 +35,7 @@ echo "copying kubernetes config"
 cp ~/.kube/config ~/workspace/backups/kube/config
 cp ~/.kube/kubectx ~/workspace/backups/kube/kubectx
 cp ~/.kube/kubens ~/workspace/backups/kube/kubens -r
-
-# echo "Syncing taskwarrior with freecinc"
-# task sync
-
-echo "copying notes to encrypted folder for dropbox backup"
-rsync -av --progress ~/workspace/notes ~/Private --delete --exclude .git
+cp ~/.kube/kubens ~/workspace/backups/kube/kubens -r
+cp ~/.kube/configs/ ~/workspace/backups/kube/ -r
 
 echo "Backup Preparation successful!"
