@@ -11,7 +11,7 @@ usage() {
 }
 
 getFile() {
-  file=$(find ~/workspace/notes -type f -name "*.md" -not -path '*/.git/*' | cut -sd / -f 6- | fzf --preview 'bat --style numbers,changes --color always ~/workspace/notes/{}')
+  file=$(find ~/private/notes -type f -name "*.md" -not -path '*/.git/*' | cut -sd / -f 6- | fzf --preview 'bat --style numbers,changes --color always ~/private/notes/{}')
   echo $file
 }
 
@@ -21,7 +21,7 @@ commit() {
   then
     msg="Notes saved on : $(date)"
   fi
-  cd ~/workspace/notes ; git add .; git commit -m "$msg";
+  cd ~/private/notes ; git add .; git commit -m "$msg";
 }
 
 open() {
@@ -31,7 +31,7 @@ open() {
     echo "No file specified"
     exit 1
   fi
-  google-chrome-stable "~/workspace/notes/$file"
+  google-chrome-stable "~/private/notes/$file"
 }
 
 preview() {
@@ -43,14 +43,14 @@ preview() {
   fi
   which bat &> /dev/null
   if [ $? == 0 ];then
-    bat -p ~/workspace/notes/$file
+    bat -p ~/private/notes/$file
   else
-    cat p ~/workspace/notes/$file
+    cat p ~/private/notes/$file
   fi
 }
 
 list() {
-  tree ~/workspace/notes
+  tree ~/private/notes
 }
 
 edit() {
@@ -61,7 +61,7 @@ edit() {
     exit 1
   fi
 
-  cd ~/workspace/notes; nvim $file
+  cd ~/private/notes; nvim $file
 }
 
 if [ "$#" == "0" ]; then
