@@ -38,4 +38,7 @@ cp ~/.kube/kubens ~/workspace/backups/kube/kubens -r
 cp ~/.kube/kubens ~/workspace/backups/kube/kubens -r
 cp ~/.kube/configs/ ~/workspace/backups/kube/ -r
 
+echo "copying rclone config"
+cp ~/.config/rclone/* ~/workspace/backups/rclone/ -r
+
 echo "Backup Preparation successful!"

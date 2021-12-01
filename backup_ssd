@@ -24,7 +24,10 @@ echo $mount
 
 echo "---------------backing up to ssd-----------------"
 
+# Sync the whole workspace
 rsync -avhP ~/workspace $mount/backup --delete
+# Sync the private stuff
+rsync -avhP ~/private $mount/backup --delete
 # rclone sync ~/workspace $mount/backup/workspace -P -v --copy-links
 
 echo "---------------backed up to ssd-----------------"
