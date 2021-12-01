@@ -2,11 +2,10 @@
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:~/workspace/scripts
 
 # backup_private: Backup secure and private stuff
-# map and xt are pushed to private git repos
-# notes are committed locally
+# map, notes and xt are pushed to private git repos
 # private folder is synced to wasabi (encrypted)
 
-notes commit
+notes push
 map push
 xt push
 rclone sync /home/jayadeep/private private:private -P -v

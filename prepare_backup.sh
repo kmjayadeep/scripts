@@ -18,7 +18,7 @@ echo "private stuff"
 echo "copying private zshrc"
 cp ~/.zshrc_private ~/workspace/backups/zsh/zshrc_private
 echo "commiting notes to git"
-notes commit
+notes push
 
 echo "pushing mindmap to git"
 map push

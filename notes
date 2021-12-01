@@ -15,13 +15,13 @@ getFile() {
   echo $file
 }
 
-commit() {
+push() {
   msg=$1
   if [[ -z $msg ]]
   then
     msg="Notes saved on : $(date)"
   fi
-  cd ~/private/notes ; git add .; git commit -m "$msg";
+  cd ~/private/notes ; git add .; git commit -m "$msg"; git push origin main;
 }
 
 open() {
@@ -85,8 +85,8 @@ case $cmd in
    preview)
      preview
 ;;
-   commit)
-     commit $1
+   push)
+     push $1
 ;;
    *)
      usage
