@@ -21,6 +21,6 @@ echo "---------------restoring from ssd-----------------"
 # Sync the whole workspace
 rsync -avhP $mount/backup/workspace/ ~/workspace/ --delete
 # Sync the private stuff
-rsync -avhP $mount/backup ~/private --delete
+rsync -avhP $mount/backup/private/ ~/private/ --delete
 
 echo "---------------restored from ssd-----------------"
