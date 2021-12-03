@@ -8,4 +8,7 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin:~/workspace/scripts
 notes push
 map push
 xt push
+cp /home/jayadeep/.config/gcloud /home/jayadeep/private -r
+cp /home/jayadeep/.kube/* /home/jayadeep/private/kube/ -r
+
 rclone sync /home/jayadeep/private private:private -P -v
