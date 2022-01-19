@@ -23,7 +23,7 @@ echo "pushing mindmap to git"
 map push
 
 echo "pushing tasks to git"
-xt push
+xt sync
 
 echo "copying ssh"
 cp ~/.ssh/config ~/workspace/backups/ssh/

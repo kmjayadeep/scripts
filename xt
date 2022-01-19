@@ -9,7 +9,8 @@ usage() {
 
   xt                     # List todos in current month
   xt edit                # Edit todos for current month
-  xt push                # Commit and push to git"
+  xt sync                # Sync xt with git
+  xt syncd               # Start sync daemon"
 }
 
 getDate() {
@@ -60,9 +61,12 @@ edit() {
   cd $FOLDER; nvim $file
 }
 
-push() {
-  msg="todo saved on : $(date)"
-  cd $FOLDER ; git add .; git commit -m "$msg"; git push origin master;
+sync() {
+  cd $FOLDER ; ./git-sync;
+}
+
+syncd() {
+  cd $FOLDER ; ./git-sync-daemon
 }
 
 cmd=$1
@@ -79,8 +83,11 @@ case $cmd in
    help|-h)
      usage
 ;;
-   push)
-     push
+   sync)
+     sync
+;;
+   syncd)
+     syncd
 ;;
    *)
      usage
