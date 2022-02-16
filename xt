@@ -50,6 +50,7 @@ show() {
 }
 
 edit() {
+  syncd &>/dev/null &
   file=$(getFile)
   if [ ! -f $file ]; then
     echo "$(getTitle)" >  $file
@@ -59,6 +60,7 @@ edit() {
   fi
 
   cd $FOLDER; nvim $file
+  wait
 }
 
 sync() {
