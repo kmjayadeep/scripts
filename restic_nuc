@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# xrestic: Restic with predefined env variables to access backup
+# restic_nuc: Restic with predefined env variables to access backup for nuc workspace
 
 # Use the env variables to export credentials and repo
 
@@ -10,6 +10,6 @@
 
 export RESTIC_REPOSITORY="s3:https://s3.eu-central-2.wasabisys.com/jd.workspace.backup"
 
-source ~/.config/restic/env
+source ~/private/restic/env
 
 restic "$@"
