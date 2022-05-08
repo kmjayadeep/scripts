@@ -19,4 +19,4 @@ fi
 cpu=$(kubectl top node | tail -n 1 | tr -s ' ' | cut -d' ' -f3)
 mem=$(kubectl top node | tail -n 1 | tr -s ' ' | cut -d' ' -f5)
 
-echo "Andromeda:   $cpu   $mem"
+echo "%{F#0ff}Andromeda: %{F-} %{F#cfc} $cpu   $mem%{F-}"

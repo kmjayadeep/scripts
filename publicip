@@ -19,5 +19,5 @@ else
   type=""
 fi
 
-echo " $type $ip $ip6"
+echo "%{F#0ff} %{F-}$type %{F#0fc}$ip%{F-}%{F#0cf} $ip6${F-}"
 

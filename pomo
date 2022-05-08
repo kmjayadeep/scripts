@@ -13,7 +13,7 @@ function x_show() {
   left=$(cat /tmp/pomo)
   left=$(($left-$d))
   if [ $left -lt 0 ];then
-    echo " Pomo Up"
+    echo "%{F#f00} Pomo Up%{F-}"
     if [ ! -f /tmp/pomo_notified ]; then
       notify-send -u critical "Pomo time up"
       echo "notified" > /tmp/pomo_notified
@@ -22,7 +22,8 @@ function x_show() {
   fi
   sec=$(($left%60))
   min=$(($left/60))
-  echo " ${min}m${sec}s"
+  # echo " ${min}m${sec}s"
+  echo "%{F#0ff} ${min}m${sec}s%{F-}"
 }
 
 function x_start() {
