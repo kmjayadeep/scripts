@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# duckdns: Update duckdns record to point to current ip
+
+# env file contains DOMAIN and TOKEN
+source ~/private/duckdns/env
+ip6=$(curl -6 ifconfig.io 2>/dev/null)
+
+url="https://www.duckdns.org/update?domains=$DOMAIN&token=$TOKEN&ip=&ipv6=$ip6&verbose=true"
+
+curl $url

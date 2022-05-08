@@ -1,22 +1,23 @@
 #!/bin/sh
 
 connection=$(pgrep -a openvpn$ | head -n 1 | awk '{print $NF }' | cut -d '.' -f 1)
-ip="$(curl -sf ifconfig.io)"
+ip="$(curl -sf -4 ifconfig.io)"
+ip6="$(curl -sf -6 ifconfig.io)"
 
 if [ -n "$connection" ]; then
   personalVpn=$(cat ~/workspace/vpn/jd_arch.ovpn | grep remote\  | cut -d" " -f2)
   case $ip in
     $personalVpn)
-      type="vpn(personal)"
+      type="vpn(personal): "
       ;;
 
     *)
-      type="vpn(work)"
+      type="vpn(work): "
       ;;
   esac
 else 
-  type="public"
+  type=""
 fi
 
-echo " $type: $ip"
+echo " $type $ip $ip6"
 

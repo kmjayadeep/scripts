@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# resticman: A wrapper over restic with predefined configurations
+
+declare -A REPOS=(
+  [nuc]="s3:https://s3.eu-central-2.wasabisys.com/jd.workspace.backup"
+  [private]="s3:https://s3.eu-central-2.wasabisys.com/jd.private.backup"
+)
+
+usage() {
+  echo "resticman: A wrapper over restic
+    resticman [reponame] [restic arguments]
+  "
+  echo "Available repos: ${!REPOS[@]} "
+}
+
+if [ $# -lt 1 ]; then
+  usage
+  exit 1
+fi
+
+
+if [[ -z "${REPOS[$1]}" ]] 
+then
+  echo "Invalid repo: $1"
+  echo
+  usage
+  exit 1
+fi
+
+repo="${REPOS[$1]}"
+
+source ~/private/restic/env-$1
+
+shift
+restic -r $repo "$@"
