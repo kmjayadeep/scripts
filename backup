@@ -2,4 +2,4 @@
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:~/workspace/scripts
 prepare_backup.sh
 backup_nuc_restic
-TZ='Asia/Kolkata' date +"%Y-%m-%d %H:%M:%S %Z" > ~/workspace/backups/last_backup_date
+TZ='Europe/Berlin' date +"%Y-%m-%d %H:%M:%S %Z" > ~/workspace/backups/last_backup_date
