@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# deluge_up: start deluge wireguard
+
+cd ~/workspace/dockerapps/deluge
+docker-compose up -d

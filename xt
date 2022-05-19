@@ -10,6 +10,7 @@ usage() {
   xt                     # List todos in current month
   xt edit                # Edit todos for current month
   xt sync                # Sync xt with git
+  xt count               # No of todos left (to show in polybar)
   xt syncd               # Start sync daemon"
 }
 
@@ -67,6 +68,16 @@ sync() {
   cd $FOLDER ; ./git-sync;
 }
 
+count() {
+  file=$(getFile)
+  if [ ! -f $file ]; then
+    echo "no entries this month"
+    exit 1
+  fi
+  day=$(echo "## $(getCurrentDay)")
+  sed -n -e "/$day/,/##/p" $file | awk  '{if ($2 == "[x]") done+=1; else if ($2 == "[") todo+=1} END {print "%{F#0ff} Todos:%{F-} %{F#cfc}"done+0"/"done+todo "%{F-}"}'
+}
+
 syncd() {
   cd $FOLDER ; ./git-sync-daemon
 }
@@ -90,6 +101,9 @@ case $cmd in
 ;;
    syncd)
      syncd
+;;
+   count)
+     count
 ;;
    *)
      usage

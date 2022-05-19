@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# wg-up: start wireguard vpn
+
+wg-quick up ~/workspace/vpn/wg0-client-arch.conf

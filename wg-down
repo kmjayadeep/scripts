@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# wg-down: stop wireguard vpn
+
+wg-quick down ~/workspace/vpn/wg0-client-arch.conf

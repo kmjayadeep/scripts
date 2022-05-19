@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# deluge_down: stop deluge wireguard
+
+cd ~/workspace/dockerapps/deluge
+docker-compose stop

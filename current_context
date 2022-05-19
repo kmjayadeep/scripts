@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# current_context: show current kubectl context
+
+echo "Cluster: "$(kubectl config current-context)
