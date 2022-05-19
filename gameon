@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# gameon: start steam and discord
+
+steam&
+discord&

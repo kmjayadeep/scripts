@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# gameoff: stop gaming
+
+killall Discord -9
+killall steam dota2 -9
