@@ -4,20 +4,25 @@ connection=$(pgrep -a openvpn$ | head -n 1 | awk '{print $NF }' | cut -d '.' -f 
 ip="$(curl -sf -4 ifconfig.io)"
 ip6="$(curl -sf -6 ifconfig.io)"
 
-if [ -n "$connection" ]; then
-  personalVpn=$(cat ~/workspace/vpn/jd_arch.ovpn | grep remote\  | cut -d" " -f2)
-  case $ip in
-    $personalVpn)
-      type="vpn(personal): "
-      ;;
+usip=$(cat /home/jayadeep/workspace/vpn/wg0-client-arch.conf | grep Endpoint | cut -f2 -d= | cut -f1 -d: | xargs)
+inip=$(cat /home/jayadeep/workspace/vpn/in-client-arch.conf | grep Endpoint | cut -f2 -d= | cut -f1 -d: | xargs)
 
-    *)
-      type="vpn(work): "
-      ;;
-  esac
-else 
-  type=""
-fi
+type=""
+
+case $ip in
+  $personalVpn)
+    type="vpn(personal): "
+    ;;
+  $usip)
+    type="wg(us): "
+    ;;
+  $inip)
+    type="wg(in): "
+    ;;
+  *)
+    type=""
+    ;;
+esac
 
 echo "%{F#0ff} %{F-}$type %{F#0fc}$ip%{F-}%{F#0cf} $ip6${F-}"
 
