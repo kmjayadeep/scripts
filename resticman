@@ -3,8 +3,8 @@
 # resticman: A wrapper over restic with predefined configurations
 
 declare -A REPOS=(
-  [nuc]="s3:https://s3.eu-central-2.wasabisys.com/jd.workspace.backup"
-  [private]="s3:https://s3.eu-central-2.wasabisys.com/jd.private.backup"
+  [nuc]="NUC workspace backup"
+  [private]="Private files backup"
 )
 
 usage() {
@@ -28,9 +28,9 @@ then
   exit 1
 fi
 
-repo="${REPOS[$1]}"
+# repo="${REPOS[$1]}"
 
 source ~/private/restic/env-$1
 
 shift
-restic -r $repo "$@"
+restic "$@"

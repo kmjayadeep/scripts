@@ -7,10 +7,10 @@
 # export AWS_ACCESS_KEY_ID=
 # export AWS_ACCESS_KEY_ID=
 # export RESTIC_PASSWORD=
-
-export RESTIC_REPOSITORY="s3:https://s3.eu-central-2.wasabisys.com/jd.workspace.backup"
+# export RESTIC_REPOSITORY=
 
 source ~/private/restic/env
 
+restic --verbose backup ~/.config/BraveSoftware
 restic --verbose backup ~/workspace/
 
