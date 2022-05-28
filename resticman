@@ -5,6 +5,7 @@
 declare -A REPOS=(
   [nuc]="NUC workspace backup"
   [private]="Private files backup"
+  [andromeda-pihole]="Andromeda cluster backup for pihole"
 )
 
 usage() {

@@ -1,0 +1,132 @@
+#!/bin/bash
+
+# blog: Manage personal tech blog posts
+# Make sure $BROWSER variable is pointing to path of your browser for previews
+
+FOLDER=~/workspace/blog
+
+usage() {
+  echo "blog : Manage blog
+
+  blog                   # Fuzzy finder to select a post and edit it in nvim
+  blog new [title]       # Start a new blog post with the title
+  blog open              # Open post in markdown in browser
+  blog list              # List posts as a tree
+  blog preview           # Render html and preview post in browser
+  blog serve             # Serve blog locally
+  blog publish           # Build and publish all posts"
+}
+
+new() {
+  if [ "$#" -eq 0 ];then
+    echo Enter title of the post
+    echo
+    usage
+    exit 1
+  fi
+  d=$(date +"%B %e, %Y")
+  title="$@"
+  title_stripped="${title//\ /-}"
+  slug="${title_stripped,,}"
+  file="$FOLDER/src/$slug.md"
+
+  if [ -f "$file" ];then
+    echo "Post already exists with the same title"
+    exit 1
+  fi
+
+  echo "# $title" > $file
+  echo "<p class=\"date\">$d</p>" >> $file
+  $EDITOR $file
+}
+
+
+list() {
+  tree $FOLDER/src -P '*.md' -C
+}
+
+getFile() {
+  file=$(find $FOLDER/src -type f -name "*.md" | cut -sd / -f 7- | fzf --preview 'bat --style numbers,changes --color always ~/workspace/blog/src/{}')
+  echo $file
+}
+
+edit() {
+  file=$(getFile)
+  if [[ -z $file ]]
+  then
+    echo "No file specified"
+    exit 1
+  fi
+
+  cd $FOLDER/src; nvim $file
+}
+
+open() {
+  file=$(getFile)
+  if [[ -z $file ]]
+  then
+    echo "No file specified"
+    exit 1
+  fi
+  $BROWSER "$FOLDER/src/$file"
+}
+
+preview() {
+  file=$(getFile)
+  if [[ -z $file ]]
+  then
+    echo "No file specified"
+    exit 1
+  fi
+  file=${file/\.md/}
+  $FOLDER/ssg render
+  http-server $FOLDER &
+  $BROWSER "http://localhost:8080/posts/$file.html"
+  wait -n
+}
+
+serve() {
+  $FOLDER/ssg render
+  http-server $FOLDER &
+  $BROWSER "http://localhost:8080"
+  wait -n
+}
+
+publish() {
+  cd $FOLDER
+  $FOLDER/ssg render
+  git add .
+  git commit -sm "blog update on $(date)"
+  git push origin master
+}
+
+cmd=$1
+shift
+
+case $cmd in 
+   "")
+     edit
+;;
+   new)
+     new "$@"
+;;
+   open)
+     open
+;;
+   list)
+     list
+;;
+   preview)
+     preview
+;;
+   publish)
+     publish 
+;;
+   serve)
+     serve
+;;
+   *)
+     usage
+     exit 1
+;;
+esac
