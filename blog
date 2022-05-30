@@ -37,6 +37,7 @@ new() {
 
   echo "# $title" > $file
   echo "<p class=\"date\">$d</p>" >> $file
+  cd $FOLDER
   $EDITOR $file
 }
 
@@ -79,14 +80,16 @@ preview() {
     exit 1
   fi
   file=${file/\.md/}
-  $FOLDER/ssg render
+  cd $FODLER
+  ./ssg render
   http-server $FOLDER &
   $BROWSER "http://localhost:8080/posts/$file.html"
   wait -n
 }
 
 serve() {
-  $FOLDER/ssg render
+  cd $FOLDER
+  ./ssg render
   http-server $FOLDER &
   $BROWSER "http://localhost:8080"
   wait -n
