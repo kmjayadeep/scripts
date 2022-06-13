@@ -2,14 +2,14 @@
 
 # andromeda_stats: Show stats about andromeda homelab server
 
-kubectl --kubeconfig ~/.kube/configs/andromeda.yaml top node &> /dev/null
+kubectl --kubeconfig ~/.kube/config --context andromeda top node &> /dev/null
 
 if [ "$?" -ne 0 ];then
   echo "Andromeda: Unhealthy"
   exit 1
 fi
 
-cpu=$(kubectl --kubeconfig ~/.kube/configs/andromeda.yaml top node | tail -n 1 | tr -s ' ' | cut -d' ' -f3)
-mem=$(kubectl --kubeconfig ~/.kube/configs/andromeda.yaml top node | tail -n 1 | tr -s ' ' | cut -d' ' -f5)
+cpu=$(kubectl --kubeconfig ~/.kube/config --context andromeda top node | tail -n 1 | tr -s ' ' | cut -d' ' -f3)
+mem=$(kubectl --kubeconfig ~/.kube/config --context andromeda top node | tail -n 1 | tr -s ' ' | cut -d' ' -f5)
 
 echo "%{F#0ff} Andromeda: %{F-} %{F#cfc} $cpu   $mem%{F-}"
