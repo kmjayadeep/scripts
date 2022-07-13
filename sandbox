@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# sandbox: Quickly spawn a sandbox environment, based on docker
+
+
+docker run --rm -ti nicolaka/netshoot

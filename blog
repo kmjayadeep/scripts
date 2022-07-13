@@ -3,7 +3,7 @@
 # blog: Manage personal tech blog posts
 # Make sure $BROWSER variable is pointing to path of your browser for previews
 
-FOLDER=~/workspace/blog
+FOLDER=~/workspace/blogs/personal
 
 usage() {
   echo "blog : Manage blog
@@ -47,7 +47,7 @@ list() {
 }
 
 getFile() {
-  file=$(find $FOLDER/src -type f -name "*.md" | cut -sd / -f 7- | fzf --preview 'bat --style numbers,changes --color always ~/workspace/blog/src/{}')
+  file=$(find $FOLDER/src -type f -name "*.md" | cut -sd / -f 7- | fzf --preview 'bat --style numbers,changes --color always ~/workspace/blogs/personal/src/{}')
   echo $file
 }
 
