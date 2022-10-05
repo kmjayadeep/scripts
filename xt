@@ -15,16 +15,16 @@ usage() {
 }
 
 getDate() {
-  date -u "+%Y%b"
+  date "+%Y%b"
 }
 
 getTitle() {
-  d=$(date -u "+%Y %B")
+  d=$(date "+%Y %B")
   echo "# Todos for $d"
 }
 
 getCurrentDay() {
-  d=$(date -u "+%b %d - %A")
+  d=$(date "+%b %d - %A")
   echo $d
 }
 

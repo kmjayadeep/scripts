@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# todo: show tasks for today
+
+count() {
+  total=$(task due.before:tomorrow due.after:today \(status:completed or status:pending or status:waiting \) count)
+  count=$(task due.before:tomorrow due.after:today status:completed count)
+  started=$(task start.any: count)
+  waiting=$(task due.before:tomorrow due.after:today status:waiting count)
+  echo "%{F#0ff} Todos:%{F-} $count/$total | %{F#0ff} Started:%{F-} $started | %{F#0ff} Waiting:%{F-} $waiting"
+}
+
+show() {
+  task due.before:tomorrow due.after:today all
+}
+
+cmd=$1
+shift
+
+case $cmd in 
+   "")
+     show
+;;
+   count)
+     count
+;;
+   *)
+     show
+;;
+esac
+
