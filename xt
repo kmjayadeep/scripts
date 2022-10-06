@@ -2,6 +2,9 @@
 
 # xt: Manage todo lists
 
+echo "this is deprecated in favor of taskwarrior"
+exit 1
+
 FOLDER=~/workspace/todos
 
 usage() {

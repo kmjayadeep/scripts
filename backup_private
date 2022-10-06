@@ -2,12 +2,12 @@
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:~/workspace/scripts
 
 # backup_private: Backup secure and private stuff
-# map, notes and xt are pushed to private git repos
+# map and notes are pushed to private git repos
+# taskwarrior is synced to taskserver
 # private folder is synced to wasabi (encrypted)
 
 notes push
 map push
-xt sync
 task sync
 cp /home/jayadeep/.config/gcloud /home/jayadeep/private -r
 cp /home/jayadeep/.kube/* /home/jayadeep/private/kube/ -r
