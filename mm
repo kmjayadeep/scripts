@@ -5,13 +5,13 @@
 FOLDER=~/workspace/mindmap
 
 usage() {
-  echo "map: Manage mind map repo
+  echo "mm: Manage mind map repo
 
-  map                     # Fuzzy finder to select an entry and edit in nvim
-  map add <title>         # Create a new entry and open it in editor
-  map list                # List existing entries using fzf
-  map open                # open an entry in chrome
-  map push                # Commit and push to git"
+  mm                     # Fuzzy finder to select an entry and edit in nvim
+  mm add <title>         # Create a new entry and open it in editor
+  mm list                # List existing entries using fzf
+  mm open                # open an entry in chrome
+  mm push                # Commit and push to git"
 }
 
 x_isosec() { date -u "+%Y%m%b/%d%a-%H%M%S"; }

@@ -3,11 +3,22 @@
 # todo: show tasks for today
 
 count() {
-  total=$(task due.before:tomorrow due.after:today \(status:completed or status:pending or status:waiting \) count)
-  count=$(task due.before:tomorrow due.after:today status:completed count)
-  started=$(task start.any: count)
+  # Task due before tomorrow
+  pending=$(task due.before:tomorrow status:pending count)
+
+  # Tasks done today
+  done=$(task end.after:today count)
+
+  # Total tasks done+pending today
+  total=$((pending+done))
+
+  # Tasks currently working on (including waiting)
+  started=$(task start.any: status:pending count)
+
+  # Waiting tasks for today
   waiting=$(task due.before:tomorrow due.after:today status:waiting count)
-  echo "%{F#0ff} Todos:%{F-} $count/$total | %{F#0ff} Started:%{F-} $started | %{F#0ff} Waiting:%{F-} $waiting"
+
+  echo "%{F#0ff} Todos:%{F-} $done/$total | %{F#0ff} Started:%{F-} $started | %{F#0ff} Waiting:%{F-} $waiting"
 }
 
 show() {
