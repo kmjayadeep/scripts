@@ -7,7 +7,7 @@ FOLDER=~/workspace/mindmap
 usage() {
   echo "mm: Manage mind map repo
 
-  mm                     # Fuzzy finder to select an entry and edit in nvim
+  mm                     # Fuzzy finder to select an entry and edit in $EDITOR
   mm add <title>         # Create a new entry and open it in editor
   mm list                # List existing entries using fzf
   mm open                # open an entry in chrome
@@ -71,7 +71,7 @@ edit() {
     exit 1
   fi
 
-  cd ~/workspace/mindmap/dump/; nvim $file
+  cd ~/workspace/mindmap/dump/; $EDITOR $file
   echo $file > /tmp/last_map
 }
 
@@ -80,7 +80,7 @@ last() {
     echo "last edited file not found"
     exit 1
   fi
-  cd ~/workspace/mindmap/dump/; nvim `cat /tmp/last_map`
+  cd ~/workspace/mindmap/dump/; $EDITOR `cat /tmp/last_map`
 }
 
 
