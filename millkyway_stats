@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# milkyway_stats: Show stats about milkyway homelab server
+
+kubectl --kubeconfig ~/.kube/config --context milkyway top node &> /dev/null
+
+if [ "$?" -ne 0 ];then
+  echo "Milkyway: Unhealthy"
+  exit 1
+fi
+
+cpu=$(kubectl --kubeconfig ~/.kube/config --context milkyway top node | tail -n 1 | tr -s ' ' | cut -d' ' -f3)
+mem=$(kubectl --kubeconfig ~/.kube/config --context milkyway top node | tail -n 1 | tr -s ' ' | cut -d' ' -f5)
+
+echo "%{F#0ff} Milkyway: %{F-} %{F#cfc} $cpu   $mem%{F-}"
