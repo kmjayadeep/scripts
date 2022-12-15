@@ -5,6 +5,7 @@ cp ~/.zshrc ~/workspace/dotfiles/zsh/zshrc
 cp ~/.bash_aliases ~/workspace/dotfiles/zsh/bash_aliases
 cp ~/.Xresources ~/workspace/dotfiles/Xresources/Xresources
 cp -r ~/.config/nvim/ ~/workspace/dotfiles/
+cp -r ~/.config/lvim/ ~/workspace/dotfiles/
 cp ~/.config/i3/* ~/workspace/dotfiles/i3/ -r
 cp ~/.config/picom/picom.conf ~/workspace/dotfiles/picom/picom.conf
 cp ~/.config/kitty/kitty.conf ~/workspace/dotfiles/kitty/kitty.conf
