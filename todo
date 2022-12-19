@@ -7,7 +7,7 @@ count() {
   pending=$(task folder:todo status:pending count 2>/dev/null)
 
   # Tasks done today
-  done=$(task end.after:today count 2>/dev/null)
+  done=$(task end.after:today status:completed count 2>/dev/null)
 
   # Total tasks done+pending today
   total=$((pending+done))
