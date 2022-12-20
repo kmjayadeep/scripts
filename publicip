@@ -3,8 +3,8 @@
 ip="$(curl -sf -4 ifconfig.io --connect-timeout 2)"
 ip6="$(curl -sf -6 ifconfig.io --connect-timeout 2)"
 
-ip=${ip:-"No Ipv4"}
-ip6=${ip6:-"No Ipv6"}
+ip=${ip:-"Couldn't find Ipv4"}
+ip6=${ip6:-"Couldn't find Ipv6"}
 
 echo "%{F#0ff} %{F-}%{F#0fc}$ip%{F-}%{F#0cf} $ip6%{F-}"
 
