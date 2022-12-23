@@ -60,7 +60,7 @@ push() {
   then
     msg="mind map saved on : $(date)"
   fi
-  cd $FOLDER ; git add .; git commit -m "$msg"; git push origin main;
+  cd $FOLDER ; git add .; git commit -m "$msg" --no-gpg-sign; git push origin main;
 }
 
 edit() {

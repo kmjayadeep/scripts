@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# run_as_cron: run a script as how it runs in linux crontab
+# usage: run_as_cron [envfile] [path_to_script]
+# create env file by adding this to crontab
+# * * * * *  /usr/bin/env > /home/jayadeep/cron-env
+
+. "$1"
+exec setsid /usr/bin/env -i "$SHELL" -c "set -a; . $1; $2" </dev/null
+

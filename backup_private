@@ -6,9 +6,12 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin:~/workspace/scripts
 # taskwarrior is synced to taskserver
 # private folder is synced to wasabi (encrypted)
 
+# Agent.env contains the variables to connect to ssh agent
+# the private key is added when opening terminal for the first time
+source /home/jayadeep/.ssh/agent.env
+
 notes push
-map push
-task sync
+mm push
 cp /home/jayadeep/.config/gcloud /home/jayadeep/private -r
 cp /home/jayadeep/.kube/* /home/jayadeep/private/kube/ -r
 
@@ -19,7 +22,6 @@ cp /home/jayadeep/.kube/* /home/jayadeep/private/kube/ -r
 # export RESTIC_PASSWORD=
 # export RESTIC_REPOSITORY=
 
-source ~/private/restic/env-private
+source /home/jayadeep/private/restic/env-private
 
 restic --verbose backup /home/jayadeep/private
-

@@ -21,7 +21,7 @@ push() {
   then
     msg="Notes saved on : $(date)"
   fi
-  cd ~/private/notes ; git add .; git commit -m "$msg"; git push origin main;
+  cd ~/private/notes ; git add .; git commit -m "$msg" --no-gpg-sign; git push origin main;
 }
 
 open() {
