@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# attach_keyboard: 
+# Set xset and xmodmap on attaching new keyboard
+#
+
+xset r rate 300 100
+xmodmap /home/jayadeep/.Xmodmap

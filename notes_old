@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ -z "$PSUITE_NOTES_DIR" ]; then
-  echo "PSUITE_NOTES_DIR not defined as environment variable"
-  exit 1
-fi
-
 usage() {
   echo "notes : Take notes in markdown
 
@@ -16,8 +11,17 @@ usage() {
 }
 
 getFile() {
-  file=$(find "$PSUITE_NOTES_DIR" -type f -name "*.md" -not -path '*/.git/*' | sed -e "s>^$PSUITE_NOTES_DIR/>>" | fzf --preview "bat --style numbers,changes --color always $PSUITE_NOTES_DIR/{}")
-  echo "$file"
+  file=$(find ~/private/notes -type f -name "*.md" -not -path '*/.git/*' | cut -sd / -f 6- | fzf --preview 'bat --style numbers,changes --color always ~/private/notes/{}')
+  echo $file
+}
+
+push() {
+  msg=$1
+  if [[ -z $msg ]]
+  then
+    msg="Notes saved on : $(date)"
+  fi
+  cd ~/private/notes ; git add .; git commit -m "$msg" --no-gpg-sign; git push origin main;
 }
 
 open() {
@@ -27,7 +31,7 @@ open() {
     echo "No file specified"
     exit 1
   fi
-  $BROWSER "$PSUITE_NOTES_DIR/$file"
+  google-chrome-stable "~/private/notes/$file"
 }
 
 preview() {
@@ -39,14 +43,14 @@ preview() {
   fi
   which bat &> /dev/null
   if [ $? == 0 ];then
-    bat -p $PSUITE_NOTES_DIR/$file
+    bat -p ~/private/notes/$file
   else
-    cat p $PSUITE_NOTES_DIR/$file
+    cat p ~/private/notes/$file
   fi
 }
 
 list() {
-  tree $PSUITE_NOTES_DIR
+  tree ~/private/notes
 }
 
 edit() {
@@ -57,7 +61,7 @@ edit() {
     exit 1
   fi
 
-  cd $PSUITE_NOTES_DIR; $EDITOR $file
+  cd ~/private/notes; $EDITOR $file
 }
 
 if [ "$#" == "0" ]; then
@@ -80,6 +84,9 @@ case $cmd in
 ;;
    preview)
      preview
+;;
+   push)
+     push $1
 ;;
    *)
      usage

@@ -10,8 +10,6 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin:~/workspace/scripts
 # the private key is added when opening terminal for the first time
 source /home/jayadeep/.ssh/agent.env
 
-notes push
-mm push
 cp /home/jayadeep/.config/gcloud /home/jayadeep/private -r
 cp /home/jayadeep/.kube/* /home/jayadeep/private/kube/ -r
 

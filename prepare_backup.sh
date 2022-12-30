@@ -17,14 +17,6 @@ cp ~/.zsh_history ~/workspace/backups/zsh/zsh_history
 echo "private stuff"
 echo "copying private zshrc"
 cp ~/.zshrc_private ~/workspace/backups/zsh/zshrc_private
-echo "commiting notes to git"
-notes push
-
-echo "pushing mindmap to git"
-map push
-
-echo "pushing tasks to git"
-xt sync
 
 echo "copying ssh"
 cp ~/.ssh/config ~/workspace/backups/ssh/

@@ -2,12 +2,7 @@
 
 # map: A tool to manage notes in my mind map repo (private)
 
-FOLDER=$PSUITE_MINDMAP_DIR
-
-if [ -z "$PSUITE_MINDMAP_DIR" ]; then
-  echo "PSUITE_MINDMAP_DIR not defined as environment variable"
-  exit 1
-fi
+FOLDER=~/workspace/mindmap
 
 usage() {
   echo "mm: Manage mind map repo
@@ -33,7 +28,7 @@ add() {
   fi
 
   mkdir -p $dir
-  cd $FOLDER
+  cd ~/workspace/mindmap/dump
   file=$dir/README.md
   echo "# $title" >  $file
   echo "## $(date)" >>  $file
@@ -41,11 +36,11 @@ add() {
 }
 
 list() {
-  find $FOLDER -type f| fzf
+  find /home/jayadeep/workspace/mindmap/dump -type f| fzf
 }
 
 getFile() {
-  file=$(find $FOLDER -type f -name "*.md" -not -path '*/.git/*' | sed -e "s>^$FOLDER/dump/>>" | fzf --preview "bat --style numbers,changes --color always $FOLDER/dump/{}")
+  file=$(find ~/workspace/mindmap/dump -type f -name "*.md" -not -path '*/.git/*' | cut -sd / -f 7- | fzf --preview 'bat --style numbers,changes --color always ~/workspace/mindmap/dump/{}')
   echo $file
 }
 
@@ -56,7 +51,16 @@ open() {
     echo "No file specified"
     exit 1
   fi
-  $BROWSER "$FOLDER/dump/$file"
+  google-chrome-stable "~/workspace/mindmap/dump/$file"
+}
+
+push() {
+  msg=$1
+  if [[ -z $msg ]]
+  then
+    msg="mind map saved on : $(date)"
+  fi
+  cd $FOLDER ; git add .; git commit -m "$msg" --no-gpg-sign; git push origin main;
 }
 
 edit() {
@@ -67,7 +71,7 @@ edit() {
     exit 1
   fi
 
-  cd $FOLDER/dump; $EDITOR $file
+  cd ~/workspace/mindmap/dump/; $EDITOR $file
   echo $file > /tmp/last_map
 }
 
@@ -76,7 +80,7 @@ last() {
     echo "last edited file not found"
     exit 1
   fi
-  cd $FOLDER; $EDITOR `cat /tmp/last_map`
+  cd ~/workspace/mindmap/dump/; $EDITOR `cat /tmp/last_map`
 }
 
 
@@ -91,13 +95,16 @@ case $cmd in
      last
 ;;
    add)
-     add "$@"
+     add $@
 ;;
    list)
      list
 ;;
    open)
      open
+;;
+   push)
+     push $1
 ;;
    help)
      usage
