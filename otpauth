@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# otpauth: echo otpauth url from totp secret
+
+echo otpauth://totp/totp-secret?secret=$1

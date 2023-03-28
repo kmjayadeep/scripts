@@ -10,6 +10,7 @@ declare -A REPOS=(
   [milkyway-monitoring]="Milkyway cluster backup for monitoring"
   [milkyway-pihole]="Milkyway cluster backup for pihole"
   [psuite-backup]="Psuite backup"
+  [psuite-andromeda]="Psuite Andromeda backup"
 )
 
 usage() {

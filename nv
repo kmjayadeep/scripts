@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# nv: Manage nirvana todo list
+# dependencies: util-linux, curl
+
+usage() {
+  echo "nv: Manage todos in Nirvana GTD system
+
+  nv                     # Open list of tasks in next
+  nv add <title>         # Create a task
+  nv in                  # List tasks in inbox"
+}
+
+add() {
+  title="$@"
+  echo adding $title
+  token=$(pass nirvana/token)
+  id=$(uuidgen)
+  curl 'https://focus.nirvanahq.com/api/?api=json&requestid=9B6ABA99-4A89-4AD9-A052-29FFAF51EBC5&clienttime=1675315780&authtoken='$token'&appid=n2desktop&appversion=1674633485' \
+    -H 'Accept: */*' \
+    -H 'Accept-Language: en-GB,en;q=0.6' \
+    -H 'Connection: keep-alive' \
+    -H 'Content-Type: application/json' \
+    -H 'Origin: https://focus.nirvanahq.com' \
+    -H 'Referer: https://focus.nirvanahq.com/' \
+    -H 'Sec-Fetch-Dest: empty' \
+    -H 'Sec-Fetch-Mode: cors' \
+    -H 'Sec-Fetch-Site: same-origin' \
+    -H 'Sec-GPC: 1' \
+    -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36' \
+    -H 'X-Requested-With: XMLHttpRequest' \
+    -H 'sec-ch-ua: "Brave";v="107", "Chromium";v="107", "Not=A?Brand";v="24"' \
+    -H 'sec-ch-ua-mobile: ?0' \
+    -H 'sec-ch-ua-platform: "Linux"' \
+    --data-raw '[{"method":"task.save","id":"'$id'","type":0,"_type":1675315773,"parentid":"","_parentid":1675315773,"waitingfor":"","_waitingfor":1675315773,"state":0,"_state":1675315773,"completed":0,"_completed":1675315773,"cancelled":0,"_cancelled":1675315773,"seq":1,"_seq":1675315780,"seqt":0,"_seqt":1675315773,"seqp":0,"_seqp":1675315773,"name":"'$title'","_name":1675315780,"tags":",","_tags":1675315780,"note":"","_note":1675315773,"ps":0,"_ps":1675315773,"etime":0,"_etime":1675315773,"energy":0,"_energy":1675315773,"startdate":"","_startdate":1675315773,"duedate":"","_duedate":1675315773,"recurring":"","_recurring":1675315773}]' \
+    --compressed
+}
+
+inbox() {
+  echo "ibox"
+}
+
+cmd=$1
+shift
+
+case $cmd in 
+   "")
+     next
+;;
+   in)
+     inbox
+;;
+   add)
+     add "$@"
+;;
+   *)
+     usage
+;;
+esac
+
+exit 0
+
