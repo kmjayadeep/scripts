@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# cosmos-seal: Seal the secret using kubeseal with cosmos public key
+
+cat $1 | kubeseal --format=yaml --cert ~/private/homelab/cosmos/sealed-secrets-key.pem
+

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# gitignore: Create a gitignore file for the current folder if it doesnt exist
+
+if [ -z $1 ]; then
+  echo "Enter the language name in camelcase like \`gitignore Go\`"
+  exit 1
+fi
+
+PROG=$1
+
+if [ -f ".gitignore" ]; then
+  echo ".gitignore already exist here, skipping"
+  exit 1
+fi
+
+
+curl "https://raw.githubusercontent.com/github/gitignore/main/${PROG}.gitignore" -o .gitignore

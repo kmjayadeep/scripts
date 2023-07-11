@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# cosmos-encrypt: Script to encrypt a secret yaml file for cosmos cluster
+# For more info about cosmos k8s cluster, check out https://github.com/kmjayadeep/homelab-k8s
+
+# AGE Public key used by the cluster
+AGE_PUBLIC_KEY=age1qkqm9wxjuezyfkahgckwfj3y09aa0psn3h9zn9tchj9khtaqj9xskg9thv
+
+# Encrypt `secret-decrypted.yaml` using age
+sops --age=$AGE_PUBLIC_KEY  --encrypt --encrypted-regex '^(data|stringData)$' secret-decrypted.yaml > secret-encrypted.yaml
