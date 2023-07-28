@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# milkyway-seal: Seal the secret using kubeseal with milkyway public key
+
+cat $1 | kubeseal --format=yaml --cert ~/private/homelab/milkyway/sealed-secrets-key.pem
