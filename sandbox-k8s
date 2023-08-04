@@ -2,4 +2,4 @@
 
 # sandbok8s: Quickly spawn a sandbox environment, as a pod
 
-kubectl run -i -t busybox --image=nicolaka/netshoot --restart=Never
+kubectl run -i -t busybox --image=nicolaka/netshoot --rm --restart=Never
