@@ -23,3 +23,6 @@ cp /home/jayadeep/.kube/* /home/jayadeep/private/kube/ -r
 source /home/jayadeep/private/restic/env-private
 
 restic --verbose backup /home/jayadeep/private
+
+# Cleanup old backups
+restic forget --keep-monthly 12 --keep-last 10 --keep-daily 10 --prune

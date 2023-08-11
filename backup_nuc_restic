@@ -14,3 +14,6 @@ source ~/private/restic/env
 restic --verbose backup ~/.config/BraveSoftware
 restic --verbose backup ~/workspace/
 
+
+# Cleanup old backups
+restic forget --keep-monthly 12 --keep-last 10 --keep-daily 10 --prune
