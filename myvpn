@@ -7,6 +7,7 @@ declare -A VPNS=(
   [us]="/home/jayadeep/workspace/vpn/wg0-client-arch.conf"
   [in]="/home/jayadeep/workspace/vpn/in-client-arch.conf"
   [homelab]="/home/jayadeep/private/vpn/wg0-milkyway.conf"
+  [homelab-ext]="/home/jayadeep/private/vpn/wg2-milkyway.conf"
 )
 
 
