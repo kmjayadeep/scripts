@@ -11,8 +11,7 @@
 
 source ~/private/restic/env
 
-restic --verbose backup ~/.config/BraveSoftware
-restic --verbose backup ~/workspace/
+restic --verbose backup ~/.config/BraveSoftware ~/workspace
 
 
 # Cleanup old backups
