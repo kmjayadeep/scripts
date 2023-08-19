@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# backup_workspace_wasabi: Backup workspace to wasabi
-
-prepare_backup.sh
-rclone sync /home/jayadeep/workspace wasabi:jayadeep.workspace.backup/workspace -P -v

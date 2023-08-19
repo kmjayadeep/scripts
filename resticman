@@ -11,6 +11,7 @@ declare -A REPOS=(
   [psuite-backup]="Psuite backup"
   [psuite-andromeda]="Psuite Andromeda backup"
   [postgres-cosmos]="Postgres cosmos backup"
+  [ssd]="NUC backup in ssd"
 )
 
 usage() {

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# backup_all_ssd: Backup everything to ssd using restic
+#
+
+DISK_NAME=backup
+
+read -n 1 -p "This will backup files from local workspace into SSD disk named $DISK_NAME using restic (encrypted), are you sure you want to continue? (y/N) : " p
+echo
+
+if [ "$p" != "y" ];then
+  exit 1
+fi
+
+
+# First find where the SSD is mounted
+
+mount=$(lsblk | grep $DISK_NAME | awk '{print $7}')
+[ -z $mount ] && echo "Disk not found" && exit 1
+echo $mount
+
+~/workspace/scripts/prepare_backup.sh
+
+repo="$mount/restic/nuc"
+
+mkdir -p "$repo"
+
+source ~/private/restic/env-ssd
+restic --verbose backup ~/workspace ~/private
+restic forget --keep-monthly 12 --keep-last 10 --keep-daily 10 --prune
