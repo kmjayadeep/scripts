@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# vm-arch: Create an arch linux vm
+
+
+lxc launch images:archlinux/desktop-gnome archlinux --vm -c security.secureboot=false -c limits.cpu=4 -c limits.memory=8GiB --console=vga

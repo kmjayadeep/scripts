@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# vm-ubuntu: Launch an ubuntu vm
+
+lxc launch images:ubuntu/22.04/desktop ubuntu --vm -c security.secureboot=false -c limits.cpu=4 -c limits.memory=4GiB --console=vga

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# dota_hours: Show Dota hours played in polybar
+
+h=$(~/bin/game-monitor dota)
+
+echo " : $h"
