@@ -2,6 +2,6 @@
 
 # dota_hours: Show Dota hours played in polybar
 
-h=$(~/bin/game-monitor dota)
+h=$(~/bin/game-monitor dota2)
 
 echo " : $h"

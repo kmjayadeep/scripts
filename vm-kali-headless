@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# vm-kali-headless: Create and access Kali VM Headless
+
+# Kali in virtualbox using vagrant
+# Credentials: vagrant/vagrant
+cd "$HOME/workspace/vms/kali-virtualbox-headless" || exit
+
+vagrant up

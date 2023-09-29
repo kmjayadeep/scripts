@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# container-kali: Create kali lxc container
+
+
+lxc launch images:kali kali

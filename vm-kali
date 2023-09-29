@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# vm-kali: Create and access Kali VM
+
+# Kali in virtualbox using vagrant
+# Credentials: vagrant/vagrant
+cd "$HOME/workspace/vms/kali-virtualbox" || exit
+
+vagrant up
