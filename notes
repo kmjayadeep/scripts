@@ -60,6 +60,32 @@ edit() {
   cd $PSUITE_NOTES_DIR; $EDITOR $file
 }
 
+# Params - Name of the markdown file being edited
+# Copies the last image from Screenshots, copies to current dir
+# Renames it to given name and outputs an image tag to be pasted
+# Executing :!notes img %:r will pass the current file to this script
+img() {
+  input_file="$1"
+  screenshot_dir="$HOME/Pictures/Screenshots"
+  output_dir="$(dirname "$input_file")"
+  file_name="$(basename "$input_file")"
+
+  recent_image="$(ls -1t "$screenshot_dir"/*.png | head -1)"
+
+  random_name="${file_name%.*}-$(date '+%s').png"
+  output_image="$output_dir/$random_name"
+
+  cp "$recent_image" "$output_image"
+
+  # Output the markdown image tag
+  markdown_tag="![Image]($random_name)"
+
+  echo -n "$markdown_tag" | xclip -selection clipboard
+
+  # Print the markdown tag to the terminal
+  echo "$markdown_tag"
+}
+
 if [ "$#" == "0" ]; then
   edit
 	exit 1
@@ -80,6 +106,9 @@ case $cmd in
 ;;
    preview)
      preview
+;;
+   img)
+     img "$1"
 ;;
    *)
      usage
