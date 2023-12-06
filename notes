@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ -z "$PSUITE_NOTES_DIR" ]; then
   echo "PSUITE_NOTES_DIR not defined as environment variable"

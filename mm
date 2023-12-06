@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # map: A tool to manage notes in my mind map repo (private)
 

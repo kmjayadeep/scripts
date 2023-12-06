@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # backup_workspace_restic: Backup workspace to wasabi using restic
 

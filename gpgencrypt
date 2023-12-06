@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# gpgencrypt: Encrypt a file using gpg
+# usage gpgencrypt [filename]
+
+gpg --encrypt --sign --armor -r kmjayadeep@gmail.com $1

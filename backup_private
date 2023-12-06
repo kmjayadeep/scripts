@@ -1,6 +1,4 @@
-#!/bin/bash
-PATH=/sbin:/bin:/usr/sbin:/usr/bin:~/workspace/scripts
-
+#!/usr/bin/env bash
 # backup_private: Backup secure and private stuff
 # map and notes are pushed to private git repos
 # taskwarrior is synced to taskserver
@@ -8,9 +6,9 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin:~/workspace/scripts
 
 # Agent.env contains the variables to connect to ssh agent
 # the private key is added when opening terminal for the first time
-source /home/jayadeep/.ssh/agent.env
+# Not requied for nixos
+# source /home/jayadeep/.ssh/agent.env
 
-cp /home/jayadeep/.config/gcloud /home/jayadeep/private -r
 cp /home/jayadeep/.kube/* /home/jayadeep/private/kube/ -r
 
 # Use the env variables to export credentials and repo

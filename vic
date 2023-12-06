@@ -12,7 +12,7 @@ FILE=~/workspace/scripts/$1
 if [ ! -f "$FILE" ]; then
   read -p "The script $1 doesn't exist. Create? y/N : " c
   if [ "$c" = "y" ]; then
-    echo "#!/bin/bash" > $FILE
+    echo "#!/usr/bin/env bash" > $FILE
     echo "" >> $FILE
     echo "# $1:" >> $FILE
     chmod +x $FILE

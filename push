@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # push: push to origin current branch
 to=$(git rev-parse --abbrev-ref HEAD)
