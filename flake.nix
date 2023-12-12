@@ -23,28 +23,58 @@
         f {
           pkgs = import nixpkgs {inherit system;};
         });
+
+    buildPackage = {
+      pkgs,
+      name,
+      runtimeInputs ? [],
+    }:
+      pkgs.writeShellApplication {
+        name = "${name}";
+        runtimeInputs = runtimeInputs;
+        text = ''
+          ${builtins.readFile ./${name}}
+        '';
+      };
   in {
     packages = forAllSystems ({pkgs}: {
-      gitignore = pkgs.writeShellApplication {
+      gameoff = buildPackage {
+        pkgs = pkgs;
+        name = "gameoff";
+      };
+      gitignore = buildPackage {
+        pkgs = pkgs;
         name = "gitignore";
-        runtimeInputs = [ pkgs.bash pkgs.curl ];
-        text = ''
-          ${builtins.readFile ./gitignore}
-        '';
+        runtimeInputs = [pkgs.curl];
       };
-      pull = pkgs.writeShellApplication {
+      pull = buildPackage {
+        pkgs = pkgs;
         name = "pull";
-        runtimeInputs = [ pkgs.bash pkgs.git ];
-        text = ''
-          ${builtins.readFile ./pull}
-        '';
+        runtimeInputs = [pkgs.git];
       };
-      push = pkgs.writeShellApplication {
+      mm = buildPackage {
+        pkgs = pkgs;
+        name = "mm";
+        runtimeInputs = [pkgs.bat pkgs.fzf];
+      };
+      notes = buildPackage {
+        pkgs = pkgs;
+        name = "notes";
+        runtimeInputs = [pkgs.bat pkgs.wl-clipboard pkgs.fzf];
+      };
+      resticman = buildPackage {
+        pkgs = pkgs;
+        name = "resticman";
+        runtimeInputs = [pkgs.restic];
+      };
+      push = buildPackage {
+        pkgs = pkgs;
         name = "push";
-        runtimeInputs = [ pkgs.bash pkgs.git ];
-        text = ''
-          ${builtins.readFile ./push}
-        '';
+        runtimeInputs = [pkgs.git];
+      };
+      vic = buildPackage {
+        pkgs = pkgs;
+        name = "vic";
       };
     });
   };

@@ -18,7 +18,7 @@ usage() {
   echo "resticman: A wrapper over restic
     resticman [reponame] [restic arguments]
   "
-  echo "Available repos: ${!REPOS[@]} "
+  echo "Available repos: " "${!REPOS[@]}"
 }
 
 if [ $# -lt 1 ]; then
@@ -35,9 +35,8 @@ then
   exit 1
 fi
 
-# repo="${REPOS[$1]}"
-
-source ~/private/restic/env-$1
+# shellcheck source=/dev/null
+source "$HOME/private/restic/env-$1"
 
 shift
-restic "$@"
+restic "$*"

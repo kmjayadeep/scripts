@@ -2,24 +2,24 @@
 
 # Command to quickly create/edit scripts in ~/workspace/scripts directory
 
-if [ -z $1 ]; then
+if [ "$#" == "0" ]; then
   echo "Enter a file name as \`vic [NAME]\`"
   exit 1
 fi
 
-FILE=~/workspace/scripts/$1
+FILE="$HOME/workspace/scripts/$1"
 
 if [ ! -f "$FILE" ]; then
-  read -p "The script $1 doesn't exist. Create? y/N : " c
+  read -r -p "The script $1 doesn't exist. Create? y/N : " c
   if [ "$c" = "y" ]; then
-    echo "#!/usr/bin/env bash" > $FILE
-    echo "" >> $FILE
-    echo "# $1:" >> $FILE
-    chmod +x $FILE
+    echo "#!/usr/bin/env bash" > "$FILE"
+    echo "" >> "$FILE"
+    echo "# $1:" >> "$FILE"
+    chmod +x "$FILE"
   else
     exit 0
   fi
 fi
 
 cd ~/workspace/scripts
-$EDITOR $FILE
+"$EDITOR" "$FILE"
