@@ -2,7 +2,7 @@
 
 # gitignore: Create a gitignore file for the current folder if it doesnt exist
 
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
   echo "Enter the language name in camelcase like \`gitignore Go\`"
   exit 1
 fi

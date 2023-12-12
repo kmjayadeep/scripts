@@ -10,3 +10,10 @@ Collection of scripts I use for
 * publicip- show public ip on the network. Useful to print on polybar/i3bar etc
 * push - git push -u origin head
 * vic - create/edit a script in this folder
+
+some of them are deprecated or rarely used. use with care
+
+# Nix flake
+
+This repo contains flake.nix to be able to import and use in nix as a flake
+Not all scripts are ported yet though

@@ -2,6 +2,6 @@
 
 # push: push to origin current branch
 to=$(git rev-parse --abbrev-ref HEAD)
-git push -u origin $to
+git push -u origin "$to"
 echo "pushed to $to"
 echo "last commit: $(git log --oneline | head -n 1)"
