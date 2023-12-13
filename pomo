@@ -3,8 +3,8 @@
 # pomo: Pomodoro clock to show in waybar
 
 function x_clear() {
-  rm /tmp/pomo_notified 2> /dev/null
-  rm /tmp/pomo 2> /dev/null
+  [ -e /tmp/pomo_notified ] && rm /tmp/pomo_notified
+  [ -e /tmp/pomo ] && rm /tmp/pomo
 }
 
 function x_show() {
@@ -26,7 +26,7 @@ function x_show() {
 }
 
 function x_start() {
-  rm /tmp/pomo_notified 2> /dev/null
+  [ -e /tmp/pomo_notified ] && rm /tmp/pomo_notified
   local end=${1:-25}
   end=$((end*60+$(date +%s)))
   echo $end > /tmp/pomo
