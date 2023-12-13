@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# pomo: Pomodoro clock to show in polybar
+# pomo: Pomodoro clock to show in waybar
 
 function x_clear() {
   rm /tmp/pomo_notified 2> /dev/null
@@ -11,34 +11,38 @@ function x_show() {
   [ -f /tmp/pomo ] || exit 1
   d=$(date +%s)
   left=$(cat /tmp/pomo)
-  left=$(($left-$d))
+  left=$((left-d))
   if [ $left -lt 0 ];then
-    echo "%{F#f00} Pomo Up%{F-}"
+    echo " Pomo Up"
     if [ ! -f /tmp/pomo_notified ]; then
       notify-send -u critical "Pomo time up"
       echo "notified" > /tmp/pomo_notified
     fi
     exit 0
   fi
-  sec=$(($left%60))
-  min=$(($left/60))
-  # echo " ${min}m${sec}s"
-  echo "%{F#0ff} ${min}m${sec}s%{F-}"
+  sec=$((left%60))
+  min=$((left/60))
+  echo "  ${min}m${sec}s"
 }
 
 function x_start() {
   rm /tmp/pomo_notified 2> /dev/null
   local end=${1:-25}
-  end=$(($end*60+$(date +%s)))
+  end=$((end*60+$(date +%s)))
   echo $end > /tmp/pomo
 }
+
+if [ "$#" -eq 0 ]; then
+  x_show
+  exit 0
+fi
 
 case $1 in
   clear)
     x_clear
   ;;
   start)
-    x_start $2
+    x_start "$2"
   ;;
   *)
     x_show

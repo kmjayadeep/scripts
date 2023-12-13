@@ -38,19 +38,10 @@
       };
   in {
     packages = forAllSystems ({pkgs}: {
-      gameoff = buildPackage {
-        pkgs = pkgs;
-        name = "gameoff";
-      };
       gitignore = buildPackage {
         pkgs = pkgs;
         name = "gitignore";
         runtimeInputs = [pkgs.curl];
-      };
-      pull = buildPackage {
-        pkgs = pkgs;
-        name = "pull";
-        runtimeInputs = [pkgs.git];
       };
       mm = buildPackage {
         pkgs = pkgs;
@@ -62,15 +53,25 @@
         name = "notes";
         runtimeInputs = [pkgs.bat pkgs.wl-clipboard pkgs.fzf];
       };
-      resticman = buildPackage {
+      pomo = buildPackage {
         pkgs = pkgs;
-        name = "resticman";
-        runtimeInputs = [pkgs.restic];
+        name = "pomo";
+        runtimeInputs = [pkgs.libnotify pkgs.coreutils];
+      };
+      pull = buildPackage {
+        pkgs = pkgs;
+        name = "pull";
+        runtimeInputs = [pkgs.git];
       };
       push = buildPackage {
         pkgs = pkgs;
         name = "push";
         runtimeInputs = [pkgs.git];
+      };
+      resticman = buildPackage {
+        pkgs = pkgs;
+        name = "resticman";
+        runtimeInputs = [pkgs.restic];
       };
       vic = buildPackage {
         pkgs = pkgs;
