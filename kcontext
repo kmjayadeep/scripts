@@ -2,4 +2,4 @@
 
 # kcontext: show current kubectl context
 
-echo "☸️  $(kubectl config current-context)"
+echo "  $(kubectl config current-context)"
