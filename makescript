@@ -1,25 +1,25 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # makescript:
 # Command to quickly create scripts in current dir
 
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
   echo "Enter a file name as \`makescript [NAME]\`"
   exit 1
 fi
 
-FILE=$1
+FILE="$1"
 
 if [ ! -f "$FILE" ]; then
-  read -p "The script $1 doesn't exist. Create? y/N : " c
+  read -r -p "The script $1 doesn't exist. Create? y/N : " c
   if [ "$c" = "y" ]; then
-    echo "#!/bin/bash" > $FILE
-    echo "" >> $FILE
-    echo "# $1:" >> $FILE
-    chmod +x $FILE
+    echo "#!/usr/bin/env bash" > "$FILE"
+    echo "" >> "$FILE"
+    echo "# $1:" >> "$FILE"
+    chmod +x "$FILE"
   else
     exit 0
   fi
 fi
 
-$EDITOR $FILE
+"$EDITOR" "$FILE"

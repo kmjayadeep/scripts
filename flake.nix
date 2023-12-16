@@ -43,6 +43,15 @@
         name = "gitignore";
         runtimeInputs = [pkgs.curl];
       };
+      kcontext = buildPackage {
+        pkgs = pkgs;
+        name = "kcontext";
+        runtimeInputs = [pkgs.kubectl];
+      };
+      makescript = buildPackage {
+        pkgs = pkgs;
+        name = "makescript";
+      };
       mm = buildPackage {
         pkgs = pkgs;
         name = "mm";
@@ -58,6 +67,11 @@
         name = "pomo";
         runtimeInputs = [pkgs.libnotify pkgs.coreutils];
       };
+      publiclocation = buildPackage {
+        pkgs = pkgs;
+        name = "publiclocation";
+        runtimeInputs = [pkgs.curl];
+      };
       pull = buildPackage {
         pkgs = pkgs;
         name = "pull";
@@ -72,6 +86,11 @@
         pkgs = pkgs;
         name = "resticman";
         runtimeInputs = [pkgs.restic];
+      };
+      todo = buildPackage {
+        pkgs = pkgs;
+        name = "todo";
+        runtimeInputs = [pkgs.taskwarrior];
       };
       vic = buildPackage {
         pkgs = pkgs;

@@ -18,20 +18,22 @@ count() {
   # New tasks in inbox
   inbox=$(task folder:in status:pending count 2>/dev/null)
 
-  echo "%{F#0ff} Todos:%{F-} $done/$total | %{F#0ff} Started:%{F-} $started | %{F#0ff} Inbox:%{F-} $inbox"
+  echo " Todos: $done/$total | Started: $started | Inbox: $inbox"
 }
 
 show() {
   task folder:todo
 }
 
+if [ "$#" == "0" ]; then
+  show
+  exit 0
+fi
+
 cmd=$1
 shift
 
 case $cmd in 
-   "")
-     show
-;;
    count)
      count
 ;;

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 cn="$(curl -sf https://ipconfig.io/country --connect-timeout 2)"
 ci="$(curl -sf https://ipconfig.io/city --connect-timeout 2)"
@@ -6,5 +6,5 @@ ci="$(curl -sf https://ipconfig.io/city --connect-timeout 2)"
 cn=${cn:-"-"}
 ci=${ci:-"-"}
 
-echo "%{F#0ff} %{F-}%{F#0fc}$ci%{F-} / %{F#0cf}$cn%{F-}"
+echo " $ci / $cn"
 
