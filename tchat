@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+# tchat: Send a text message to telegram channel
+# prereqs:
+# pass with telegram/hubby-bot-chatid and  telegram/hubby-bot (token)
+
+usage() {
+  echo "tchat : Send text message in telegram channel
+
+  Usage:
+
+  tchat <messsage>
+
+  or
+
+  echo something | tchat
+  "
+}
+
+# Function to urlencode a string
+urlencode() {
+  local string="$1"
+  local strlen=${#string}
+  local encoded=""
+  local pos c o
+
+  for (( pos=0 ; pos<strlen ; pos++ )); do
+    c=${string:$pos:1}
+    case "$c" in
+      [-_.~a-zA-Z0-9] )
+        o="$c"
+        ;;
+      * )
+        printf -v o '%%%02x' "'$c"
+        ;;
+    esac
+    encoded+="$o"
+  done
+  echo "$encoded"
+}
+
+text=""
+
+if [ "$#" == "0" ]; then
+  text=$(cat)
+else
+  text="$*"
+fi
+
+# text=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))" "$text")
+text=$(urlencode "$text")
+
+if curl -s "https://api.telegram.org/bot$(pass telegram/hubby-bot)/sendMessage?chat_id=$(pass telegram/hubby-bot-chatid)&text=$text" > /dev/null 2>&1; then
+ notify-send "Message sent"
+else
+ notify-send -u critical "Message failed to send"
+fi

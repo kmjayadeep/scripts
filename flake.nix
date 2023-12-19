@@ -87,6 +87,11 @@
         name = "resticman";
         runtimeInputs = [pkgs.restic];
       };
+      tchat = buildPackage {
+        pkgs = pkgs;
+        name = "tchat";
+        runtimeInputs = [pkgs.libnotify pkgs.coreutils];
+      };
       todo = buildPackage {
         pkgs = pkgs;
         name = "todo";
