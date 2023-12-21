@@ -38,9 +38,19 @@
       };
   in {
     packages = forAllSystems ({pkgs}: {
-      backup_all_ssd = buildPackage {
+      backup_ssd = buildPackage {
         pkgs = pkgs;
-        name = "backup_all_ssd";
+        name = "backup_ssd";
+        runtimeInputs = [pkgs.restic];
+      };
+      backup_nuc_restic = buildPackage {
+        pkgs = pkgs;
+        name = "backup_nuc_restic";
+        runtimeInputs = [pkgs.restic pkgs.coreutils];
+      };
+      backup_private = buildPackage {
+        pkgs = pkgs;
+        name = "backup_private";
         runtimeInputs = [pkgs.restic];
       };
       gitignore = buildPackage {

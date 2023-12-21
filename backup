@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 PATH=$PATH:~/workspace/scripts
-prepare_backup.sh
 backup_nuc_restic
 TZ='Europe/Berlin' date +"%Y-%m-%d %H:%M:%S %Z" > ~/workspace/backups/last_backup_date

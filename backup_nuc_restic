@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# backup_workspace_restic: Backup workspace to wasabi using restic
+# backup_nuc_restic: Backup workspace to s3/b2 using restic
 
 # Use the env variables to export credentials and repo
 
@@ -9,6 +9,7 @@
 # export RESTIC_PASSWORD=
 # export RESTIC_REPOSITORY=
 
+# shellcheck source=/dev/null
 source ~/private/restic/env
 
 restic --verbose backup ~/.config/BraveSoftware ~/workspace
@@ -16,3 +17,5 @@ restic --verbose backup ~/.config/BraveSoftware ~/workspace
 
 # Cleanup old backups
 restic forget --keep-monthly 12 --keep-last 10 --keep-daily 10 --prune
+
+TZ='Europe/Berlin' date +"%Y-%m-%d %H:%M:%S %Z" > ~/workspace/backups/last_backup_date

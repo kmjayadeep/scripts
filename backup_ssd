@@ -1,14 +1,11 @@
 #!/bin/bash
 
-# backup_ssd: Backup workspace to local ssd
-
-
-# Deprecated in favor of backup_all_ssd
-
+# backup_all_ssd: Backup everything to ssd using restic
+#
 
 DISK_NAME=backup
 
-read -n 1 -r -p "This will copy files from local workspace into SSD disk named $DISK_NAME, are you sure you want to continue? (y/N) : " p
+read -n 1 -r -p "This will backup files from local workspace into SSD disk named $DISK_NAME using restic (encrypted), are you sure you want to continue? (y/N) : " p
 echo
 
 if [ "$p" != "y" ];then
@@ -18,19 +15,15 @@ fi
 
 # First find where the SSD is mounted
 
-mount=$(lsblk | grep "$DISK_NAME" | awk '{print $7}')
+mount=$(lsblk | grep $DISK_NAME | awk '{print $7}')
 [ -z "$mount" ] && echo "Disk not found" && exit 1
 echo "$mount"
 
-# ~/workspace/scripts/prepare_backup.sh
+repo="$mount/restic/nuc"
 
+mkdir -p "$repo"
 
-echo "---------------backing up to ssd-----------------"
-
-# Sync the whole workspace
-rsync -avhP "$HOME/workspace" "$mount/backup" --delete
-# Sync the private stuff
-rsync -avhP "$HOME/private" "$mount/backup" --delete
-# rclone sync ~/workspace $mount/backup/workspace -P -v --copy-links
-
-echo "---------------backed up to ssd-----------------"
+# shellcheck source=/dev/null
+source "$HOME/private/restic/env-ssd"
+restic --verbose backup "$HOME/workspace" "$HOME/private"
+restic forget --keep-monthly 12 --keep-last 10 --keep-daily 10 --prune

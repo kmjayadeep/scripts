@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 # backup_private: Backup secure and private stuff
-# map and notes are pushed to private git repos
-# taskwarrior is synced to taskserver
-# private folder is synced to wasabi (encrypted)
+#
+# private folder is synced to s3/b2 (encrypted)
 
 # Agent.env contains the variables to connect to ssh agent
 # the private key is added when opening terminal for the first time
 # Not requied for nixos
 # source /home/jayadeep/.ssh/agent.env
-
-cp /home/jayadeep/.kube/* /home/jayadeep/private/kube/ -r
 
 # Use the env variables to export credentials and repo
 
@@ -18,6 +15,7 @@ cp /home/jayadeep/.kube/* /home/jayadeep/private/kube/ -r
 # export RESTIC_PASSWORD=
 # export RESTIC_REPOSITORY=
 
+# shellcheck source=/dev/null
 source /home/jayadeep/private/restic/env-private
 
 restic --verbose backup /home/jayadeep/private
