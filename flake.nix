@@ -87,6 +87,11 @@
         name = "publiclocation";
         runtimeInputs = [pkgs.curl];
       };
+      publicweather = buildPackage {
+        pkgs = pkgs;
+        name = "publicweather";
+        runtimeInputs = [pkgs.curl];
+      };
       pull = buildPackage {
         pkgs = pkgs;
         name = "pull";

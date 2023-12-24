@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# publicweather: return public location with weather info
+
+wt="$(curl -sf "https://wttr.in?format=3")"
+
+echo "$wt"

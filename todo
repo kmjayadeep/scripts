@@ -18,7 +18,7 @@ count() {
   # New tasks in inbox
   inbox=$(task folder:in status:pending count 2>/dev/null)
 
-  echo " Todos: $done/$total | Started: $started | Inbox: $inbox"
+  echo "Tasks:   $done/$total |   $started |   $inbox"
 }
 
 show() {

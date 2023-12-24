@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # map: A tool to manage notes in my mind map repo (private)
 
-FOLDER="$PSUITE_MINDMAP_DIR"
+FOLDER=$PSUITE_MINDMAP_DIR
 
 if [ -z "$PSUITE_MINDMAP_DIR" ]; then
   echo "PSUITE_MINDMAP_DIR not defined as environment variable"
@@ -15,38 +15,37 @@ usage() {
   mm                     # Fuzzy finder to select an entry and edit in $EDITOR
   mm add <title>         # Create a new entry and open it in editor
   mm list                # List existing entries using fzf
-  mm open                # open an entry in chrome
-  mm push                # Commit and push to git"
+  mm open                # open an entry in chrome"
 }
 
 x_isosec() { date -u "+%Y%m%b/%d%a-%H%M%S"; }
 
 add() {
   d="$(x_isosec)"
-  title="$*"
+  title="$@"
   title_stripped="${title//\ /-}"
 
-  dir="$FOLDER/dump/$d-$title_stripped"
+  dir=$FOLDER/dump/$d-$title_stripped
   
-  if [ -z "$title_stripped" ];then
-    dir="$FOLDER/dump/$d"
+  if [ -z $title_stripped ];then
+    dir=$FOLDER/dump/$d
   fi
 
-  mkdir -p "$dir"
-  cd "$FOLDER"
-  file="$dir/README.md"
-  echo "# $title" >  "$file"
-  echo "## $(date)" >>  "$file"
-  $EDITOR "$file"
+  mkdir -p $dir
+  cd $FOLDER
+  file=$dir/README.md
+  echo "# $title" >  $file
+  echo "## $(date)" >>  $file
+  $EDITOR $file
 }
 
 list() {
-  find "$FOLDER" -type f| fzf
+  find $FOLDER -type f| fzf
 }
 
 getFile() {
-  file=$(find "$FOLDER" -type f -name "*.md" -not -path '*/.git/*' | sed -e "s>^$FOLDER/dump/>>" | fzf --preview "bat --style numbers,changes --color always $FOLDER/dump/{}")
-  echo "$file"
+  file=$(find $FOLDER -type f -name "*.md" -not -path '*/.git/*' | sed -e "s>^$FOLDER/dump/>>" | fzf --preview "bat --style numbers,changes --color always $FOLDER/dump/{}")
+  echo $file
 }
 
 open() {
@@ -61,14 +60,14 @@ open() {
 
 edit() {
   file=$(getFile)
-  if [[ -z "$file" ]]
+  if [[ -z $file ]]
   then
     echo "No file specified"
     exit 1
   fi
 
-  cd "$FOLDER/dump"; "$EDITOR" "$file"
-  echo "$file" > /tmp/last_map
+  cd $FOLDER/dump; $EDITOR $file
+  echo $file > /tmp/last_map
 }
 
 last() {
@@ -76,18 +75,14 @@ last() {
     echo "last edited file not found"
     exit 1
   fi
-  cd "$FOLDER"; "$EDITOR" "$(cat /tmp/last_map)"
+  cd $FOLDER; $EDITOR `cat /tmp/last_map`
 }
 
-if [ "$#" -eq 0 ]; then
-  edit
-  exit 0
-fi
 
-cmd="$1"
+cmd=$1
 shift
 
-case "$cmd" in 
+case $cmd in 
    "")
      edit
 ;;
