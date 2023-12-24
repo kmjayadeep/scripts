@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ -z "$PSUITE_NOTES_DIR" ]; then
   echo "PSUITE_NOTES_DIR not defined as environment variable"
@@ -37,16 +37,16 @@ preview() {
     echo "No file specified"
     exit 1
   fi
-  which bat &> /dev/null
-  if [ $? == 0 ];then
-    bat -p $PSUITE_NOTES_DIR/$file
+  if which bat &> /dev/null;
+  then
+    bat -p "$PSUITE_NOTES_DIR/$file"
   else
-    cat p $PSUITE_NOTES_DIR/$file
+    cat p "$PSUITE_NOTES_DIR/$file"
   fi
 }
 
 list() {
-  tree $PSUITE_NOTES_DIR
+  tree "$PSUITE_NOTES_DIR" 
 }
 
 edit() {
@@ -57,7 +57,34 @@ edit() {
     exit 1
   fi
 
-  cd $PSUITE_NOTES_DIR; $EDITOR $file
+  cd "$PSUITE_NOTES_DIR"; "$EDITOR" "$file"
+}
+
+# Params - Name of the markdown file being edited
+# Copies the last image from Screenshots, copies to current dir
+# Renames it to given name and outputs an image tag to be pasted
+# Executing :!notes img %:r will pass the current file to this script
+img() {
+  input_file="$1"
+  screenshot_dir="$HOME/media/screenshots"
+  output_dir="$(dirname "$input_file")"
+  file_name="$(basename "$input_file")"
+
+  # shellcheck disable=SC2012
+  recent_image="$(ls -1t "$screenshot_dir"/*.png | head -1)"
+
+  random_name="${file_name%.*}-$(date '+%s').png"
+  output_image="$output_dir/$random_name"
+
+  cp "$recent_image" "$output_image"
+
+  # Output the markdown image tag
+  markdown_tag="![Image]($random_name)"
+
+  echo -n "$markdown_tag" | wl-copy
+
+  # Print the markdown tag to the terminal
+  echo "$markdown_tag"
 }
 
 if [ "$#" == "0" ]; then
@@ -80,6 +107,9 @@ case $cmd in
 ;;
    preview)
      preview
+;;
+   img)
+     img "$1"
 ;;
    *)
      usage
