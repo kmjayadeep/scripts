@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# in: Show tasks in inbox
+
+task +INBOX

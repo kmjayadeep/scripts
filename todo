@@ -3,8 +3,8 @@
 # todo: show tasks for today
 
 count() {
-  # Task due in todo folder
-  pending=$(task folder:todo status:pending count 2>/dev/null)
+  # Task due for today
+  pending=$(task -INBOX scheduled.before:tomorrow status:pending count 2>/dev/null)
 
   # Tasks done today
   done=$(task end.after:today status:completed count 2>/dev/null)
@@ -16,13 +16,20 @@ count() {
   started=$(task start.any: status:pending count 2>/dev/null)
 
   # New tasks in inbox
-  inbox=$(task folder:in status:pending count 2>/dev/null)
+  inbox=$(task +INBOX status:pending count 2>/dev/null)
 
   echo "Tasks:   $done/$total |   $started |   $inbox"
 }
 
 show() {
-  task folder:todo
+  task today
+}
+
+current() {
+  if [ "$(task start.any: status:pending count 2>/dev/null)" -eq "0" ];then
+    exit 1
+  fi
+  task start.any: status:pending export | jq -r '.[0] | .project + ":" + .description'
 }
 
 if [ "$#" == "0" ]; then
@@ -36,6 +43,9 @@ shift
 case $cmd in 
    count)
      count
+;;
+   current)
+     current
 ;;
    *)
      show
