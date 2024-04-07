@@ -4,7 +4,7 @@
 
 count() {
   # Task due for today
-  pending=$(task -INBOX scheduled.before:tomorrow status:pending count 2>/dev/null)
+  pending=$(task scheduled.before:tomorrow status:pending count 2>/dev/null)
 
   # Tasks done today
   done=$(task end.after:today status:completed count 2>/dev/null)
@@ -16,7 +16,7 @@ count() {
   started=$(task start.any: status:pending count 2>/dev/null)
 
   # New tasks in inbox
-  inbox=$(task +INBOX status:pending count 2>/dev/null)
+  inbox=$(task status:pending project: count 2>/dev/null)
 
   echo "Tasks:   $done/$total |   $started |   $inbox"
 }
@@ -29,8 +29,28 @@ current() {
   if [ "$(task start.any: status:pending count 2>/dev/null)" -eq "0" ];then
     exit 1
   fi
-  task start.any: status:pending export | jq -r '.[0] | .project + ":" + .description'
+  task start.any: status:pending export | jq -r '.[0] | (.id | tostring) + ":" + .project + ": " + .description'
 }
+
+display() {
+  # Task due for today
+  pending=$(task scheduled.before:tomorrow status:pending count 2>/dev/null)
+
+  # Tasks done today
+  done=$(task end.after:today status:completed count 2>/dev/null)
+
+  # Total tasks done+pending today
+  total=$((pending+done))
+
+  # New tasks in inbox
+  inbox=$(task status:pending project: count 2>/dev/null)
+
+  curr=$(current)
+
+  echo "TODO:   $done/$total |   $inbox |  $curr"
+}
+
+
 
 if [ "$#" == "0" ]; then
   show
@@ -47,8 +67,10 @@ case $cmd in
    current)
      current
 ;;
+   display)
+     display
+;;
    *)
      show
 ;;
 esac
-
