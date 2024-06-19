@@ -39,4 +39,4 @@ fi
 source "$HOME/private/restic/env-$1"
 
 shift
-restic "$*"
+restic "$@"
