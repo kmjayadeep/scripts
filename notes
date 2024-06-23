@@ -81,7 +81,7 @@ img() {
   # Output the markdown image tag
   markdown_tag="![Image]($random_name)"
 
-  echo -n "$markdown_tag" | wl-copy
+  echo -n "$markdown_tag" | xclip -sel clip
 
   # Print the markdown tag to the terminal
   echo "$markdown_tag"
