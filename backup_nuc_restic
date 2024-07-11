@@ -12,6 +12,24 @@
 # shellcheck source=/dev/null
 source ~/private/restic/env
 
+# Wait for minio to be available. This is a hack to make sure that network is ready if the cronjob starts at boot
+
+URL=https://minio.cosmos.cboxlab.com/minio/health/live
+timeout=60
+elapsed=0
+
+while ! curl -s --head --request GET $URL | grep "HTTP/2 200" > /dev/null; do
+    echo "Waiting for network..."
+    sleep 2
+    elapsed=$((elapsed + 2))
+    if [ $elapsed -ge $timeout ]; then
+        echo "Network is not available after $timeout seconds"
+        exit 1
+    fi
+done
+
+echo "Network is ready"
+
 restic --verbose backup ~/.config/BraveSoftware ~/workspace
 
 
