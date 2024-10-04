@@ -10,7 +10,7 @@
 # export RESTIC_REPOSITORY=
 
 # shellcheck source=/dev/null
-source ~/private/restic/env
+source ~/private/restic/env-nuc
 
 # Wait for minio to be available. This is a hack to make sure that network is ready if the cronjob starts at boot
 
