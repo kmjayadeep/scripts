@@ -45,7 +45,7 @@ list() {
 }
 
 getFile() {
-  file=$(find "$FOLDER" -type f -name "*.md" -not -path '*/.git/*' | sed -e "s>^$FOLDER/dump/>>" | fzf --preview "bat --style numbers,changes --color always $FOLDER/dump/{}")
+  file=$(find "$FOLDER/dump" -type f -name "*.md" -not -path '*/.git/*' | sed -e "s>^$FOLDER/dump/>>" | fzf --preview "bat --style numbers,changes --color always $FOLDER/dump/{}")
   echo "$file"
 }
 
