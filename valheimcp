@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# valheimcp: Copy valheim game files between servers
+
+
+declare -A server_map
+server_map=(
+    ["local"]="$HOME/.config/unity3d/IronGate/Valheim/worlds_local/"
+    ["chillyfries"]="chillyfries:/var/lib/valheim/.config/unity3d/IronGate/Valheim/worlds_local/"
+)
+
+
+usage() {
+  echo "valheimcp: Copy valhelm files
+
+  valheimcp <src> <dst> <worldname>"
+}
+
+src="$1"
+if [[ -v server_map["$src"] ]]; then
+  srcpath=${server_map["$src"]}
+  echo "The path for $src is: $srcpath"
+else
+  echo "Server name $src not found in the map."
+fi
+
+dst="$2"
+
+if [[ -v server_map["$dst"] ]]; then
+  dstpath=${server_map["$dst"]}
+  echo "The path for $dst is: $dstpath"
+else
+  echo "Server name $dst not found in the map."
+fi
+
+if [ "$src" = "$dst" ]; then
+  echo "src and dst cannot be the same"
+  exit 1
+fi
+
+world="$3"
+
+read -n 1 -p "Are you sure you want to continue? (y/N) : " p
+echo
+
+if [ "$p" != "y" ];then
+  exit 1
+fi
+
+scp $srcpath/$world.fwl $dstpath
+scp $srcpath/$world.db $dstpath
+
+echo "Copy done"
