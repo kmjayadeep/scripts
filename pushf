@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# pushf: Git push with force
+to=$(git rev-parse --abbrev-ref HEAD)
+git push -u origin "$to" -f --force-with-lease
+echo "force pushed to $to"
+echo "last commit: $(git log --oneline | head -n 1)"

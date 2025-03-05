@@ -102,6 +102,11 @@
         name = "push";
         runtimeInputs = [pkgs.git];
       };
+      pushf = buildPackage {
+        pkgs = pkgs;
+        name = "pushf";
+        runtimeInputs = [pkgs.git];
+      };
       resticman = buildPackage {
         pkgs = pkgs;
         name = "resticman";
