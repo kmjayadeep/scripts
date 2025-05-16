@@ -120,7 +120,7 @@
       todo = buildPackage {
         pkgs = pkgs;
         name = "todo";
-        runtimeInputs = [pkgs.taskwarrior];
+        runtimeInputs = [pkgs.taskwarrior3];
       };
       vic = buildPackage {
         pkgs = pkgs;
