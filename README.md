@@ -9,6 +9,7 @@ Collection of scripts I use for
 * pomo - A pomodoro clock to show in the top bar which can notify when the time is up
 * publicip- show public ip on the network. Useful to print on polybar/i3bar etc
 * push - git push -u origin head
+* sync_jellyfin_music - safely dry-run or sync Jellyfin audio files to the mounted MP3 player
 * vic - create/edit a script in this folder
 
 some of them are deprecated or rarely used. use with care

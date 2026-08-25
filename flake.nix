@@ -112,6 +112,17 @@
         name = "resticman";
         runtimeInputs = [pkgs.restic];
       };
+      sync_jellyfin_music = buildPackage {
+        pkgs = pkgs;
+        name = "sync_jellyfin_music";
+        runtimeInputs = [
+          pkgs.coreutils
+          pkgs.gawk
+          pkgs.gnugrep
+          pkgs.rsync
+          pkgs.util-linux
+        ];
+      };
       tchat = buildPackage {
         pkgs = pkgs;
         name = "tchat";
@@ -120,7 +131,7 @@
       todo = buildPackage {
         pkgs = pkgs;
         name = "todo";
-        runtimeInputs = [pkgs.taskwarrior3];
+        runtimeInputs = [pkgs.taskwarrior];
       };
       vic = buildPackage {
         pkgs = pkgs;

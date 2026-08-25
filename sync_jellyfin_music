@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+# Sync audio files from the Jellyfin music library to the mounted MP3 player.
+# By default this is a dry run. Use --apply to make changes.
+
+set -euo pipefail
+
+SOURCE="/nfs/tv/music"
+DESTINATION="/run/media/jayadeep/disk"
+
+apply=false
+yes=false
+
+usage() {
+  cat <<'EOF'
+Usage: sync_jellyfin_music [--apply] [--yes]
+
+Sync supported audio files from the Jellyfin library to the MP3 player.
+
+  (no options)  Show the changes rsync would make (including deletions).
+  --apply       Perform the sync and delete destination audio files no longer
+                present in the source.
+  --yes         Do not ask for the final confirmation (requires --apply).
+
+Non-audio files, such as cover art, are excluded and protected from deletion.
+EOF
+}
+
+while (($#)); do
+  case "$1" in
+    --apply) apply=true ;;
+    --yes) yes=true ;;
+    -h|--help) usage; exit 0 ;;
+    *) echo "Unknown option: $1" >&2; usage >&2; exit 2 ;;
+  esac
+  shift
+done
+
+if "$yes" && ! "$apply"; then
+  echo "--yes requires --apply." >&2
+  exit 2
+fi
+
+fail() {
+  echo "Refusing to sync: $*" >&2
+  exit 1
+}
+
+# Do not proceed if either fixed path has been redirected through a symlink.
+[[ -d "$SOURCE" ]] || fail "source does not exist: $SOURCE"
+[[ -d "$DESTINATION" ]] || fail "destination does not exist: $DESTINATION"
+source_real=$(realpath -e -- "$SOURCE")
+destination_real=$(realpath -e -- "$DESTINATION")
+[[ "$source_real" == "$SOURCE" ]] || fail "source resolved somewhere unexpected: $source_real"
+[[ "$destination_real" == "$DESTINATION" ]] || fail "destination resolved somewhere unexpected: $destination_real"
+[[ "$source_real" != "$destination_real" ]] || fail "source and destination are the same directory"
+
+# The library must really be on NFS. An automounted NFS path reports both an
+# autofs layer and its backing nfs/nfs4 layer, so accept it when any layer is NFS.
+# The exact destination must be a mountpoint rather than an accidentally-created
+# local directory.
+source_fstypes=$(findmnt --noheadings --output FSTYPE --target "$SOURCE" | awk '{ print $1 }')
+grep -Eq '^nfs' <<<"$source_fstypes" || fail "source is not backed by NFS (found: ${source_fstypes//$'\n'/, })"
+mountpoint -q -- "$DESTINATION" || fail "destination is not a mountpoint: $DESTINATION"
+[[ -w "$DESTINATION" ]] || fail "destination is not writable: $DESTINATION"
+
+# Directories must be traversed, while only explicitly listed audio formats
+# are transferred. Excluded files (cover art, playlists, etc.) are not removed
+# by --delete because --delete-excluded is deliberately not used.
+audio_extensions=(
+  aac aiff alac ape flac m4a m4b mp3 mp4 mpc ogg opus wav wma
+)
+filters=(--include='*/')
+for extension in "${audio_extensions[@]}"; do
+  case_insensitive_extension=""
+  for ((i = 0; i < ${#extension}; i++)); do
+    char=${extension:i:1}
+    case_insensitive_extension+="[${char,,}${char^^}]"
+  done
+  filters+=(--include="*.${case_insensitive_extension}")
+done
+filters+=(--exclude='*')
+
+rsync_options=(
+  --archive
+  --no-owner
+  --no-group
+  --no-perms
+  --delete-delay
+  --human-readable
+  "--info=DEL,NAME,STATS2,PROGRESS2"
+  "${filters[@]}"
+)
+
+if ! "$apply"; then
+  echo "Dry run: no files will be changed. Use --apply to perform this sync."
+  rsync_options+=(--dry-run)
+else
+  echo "WARNING: this will delete destination audio files absent from the source."
+  echo "Source:      $SOURCE/"
+  echo "Destination: $DESTINATION/"
+  if ! "$yes"; then
+    [[ -t 0 ]] || fail "no interactive terminal; use --apply --yes only after reviewing a dry run"
+    read -r -p "Type 'sync' to continue: " confirmation
+    [[ "$confirmation" == "sync" ]] || fail "confirmation was not received"
+  fi
+fi
+
+rsync "${rsync_options[@]}" -- "$SOURCE/" "$DESTINATION/"
