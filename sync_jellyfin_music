@@ -86,6 +86,9 @@ rsync_options=(
   --no-group
   --no-perms
   --delete-delay
+  # VFAT stores modification times at two-second precision. Without this,
+  # files whose source timestamp falls on an odd second look changed forever.
+  --modify-window=1
   --human-readable
   "--info=DEL,NAME,STATS2,PROGRESS2"
   "${filters[@]}"
