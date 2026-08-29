@@ -131,7 +131,7 @@
       todo = buildPackage {
         pkgs = pkgs;
         name = "todo";
-        runtimeInputs = [pkgs.taskwarrior];
+        runtimeInputs = [pkgs.jq (pkgs.taskwarrior3 or pkgs.taskwarrior)];
       };
       vic = buildPackage {
         pkgs = pkgs;
